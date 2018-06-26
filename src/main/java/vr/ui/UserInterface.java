@@ -2,6 +2,7 @@ package vr.ui;
 
 import vr.data.BackgroundData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -11,7 +12,7 @@ import java.util.Scanner;
  */
 public class UserInterface {
     private Scanner reader;
-    private JsonRoadData trainData;
+    //    private JsonRoadData trainData;
     private Map<String, String> stationShortCodes;
 
     public UserInterface(Scanner reader, Map<String, String> stationShortCodes) {
@@ -66,22 +67,40 @@ public class UserInterface {
     }
 
     private void timeTablesFromTo() {
+        outer:
         while (true) {
             String departure = "";
             String arrival = "";
-            System.out.print("Write the name of the station you wnat to depart from: ");
+            System.out.print("Write the name of the station you want to depart from: ");
             while (true) {
+                int givingUp = 0;
                 departure = reader.nextLine();
                 if (!this.stationShortCodes.containsKey(departure)) {
+                    if (givingUp > 3) {
+                        System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
+                        String answer = reader.nextLine();
+                        if (answer.equals("y")) {
+                            break outer;
+                        }
+                    }
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
-                } else  {
+                    givingUp++;
+                } else {
                     break;
                 }
             }
             System.out.print("Write the name of the station you want to go to: ");
             while (true) {
+                int givingUp = 0;
                 arrival = reader.nextLine();
                 if (!this.stationShortCodes.containsKey(arrival)) {
+                    if (givingUp > 3) {
+                        System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
+                        String answer = reader.nextLine();
+                        if (answer.equals("y")) {
+                            break outer;
+                        }
+                    }
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
                 } else {
                     break;
@@ -89,7 +108,8 @@ public class UserInterface {
             }
             String departureShortCode = this.stationShortCodes.get(departure);
             String arrivalShortCode = this.stationShortCodes.get(arrival);
-            List<String> suitableTrains = trainData.getTimeTable(departureShortCode,arrivalShortCode);
+//            List<Train> suitableTrains = trainData.getTimeTable(departureShortCode,arrivalShortCode);
+            List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
             if (!suitableTrains.isEmpty()) {
                 suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
                 break;
@@ -107,17 +127,19 @@ public class UserInterface {
 
     private void nextDepartures() {
         while (true) {
-            System.out.print("Write the name of the station you wnat to depart from: ");
+            System.out.print("Write the name of the station you want to depart from: ");
             while (true) {
                 String answer = reader.nextLine();
                 if (this.stationShortCodes.containsKey(answer)) {
                     String stationShortCode = this.stationShortCodes.get(answer);
-                    List<String> suitableTrains = trainData.getTimeTable(stationShortCode);
+//                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+                    List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
                     if (!suitableTrains.isEmpty()) {
                         suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
                         break;
                     } else {
                         System.out.println("There are no trains leaving from the " + answer + " station in the near future.");
+                        break;
                     }
                 } else {
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
@@ -137,3 +159,4 @@ public class UserInterface {
 
 
 }
+//Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)
