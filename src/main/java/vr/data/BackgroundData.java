@@ -27,8 +27,6 @@ public class BackgroundData {
             for (Stations st : stations) {
                 map.put(st.getStationName (), st.getStationShortCode ());
             }
-            System.out.println (map);
-
 
         } catch (Exception ex) {
             System.out.println (ex);
