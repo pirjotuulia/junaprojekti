@@ -57,6 +57,5 @@ public class BackgroundData {
         }
         return nearest; // palauttaa listan lähimmistä asemista
     }
-
 }
 

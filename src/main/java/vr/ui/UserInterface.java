@@ -17,7 +17,7 @@ public class UserInterface {
     private JsonReadData trainData;
     private BackgroundData bgrdata;
 
-    public UserInterface(Scanner reader, BackgroundData bgrdata) {
+    public UserInterface(Scanner reader, BackgroundData bgrdata, JsonReadData trainData) {
         this.reader = reader;
         this.bgrdata = bgrdata;
     }
@@ -72,17 +72,16 @@ public class UserInterface {
         outer:
         while (true) {
             String departure = getStation("departure");
-            if (departure==null) {
+            if (departure == null) {
                 break outer;
             }
             String arrival = getStation("arrival");
-            if (arrival== null) {
+            if (arrival == null) {
                 break outer;
             }
             String departureShortCode = bgrdata.getShortCode(departure);
             String arrivalShortCode = bgrdata.getShortCode(arrival);
             List<Train> suitableTrains = trainData.getTimeTable(departureShortCode, arrivalShortCode);
-//            List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
             if (!suitableTrains.isEmpty()) {
                 suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
             } else {
@@ -141,14 +140,17 @@ public class UserInterface {
                 String answer = reader.nextLine();
                 if (bgrdata.isKey(answer)) {
                     String stationShortCode = bgrdata.getShortCode(answer);
-                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
-//                    List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
-                    if (!suitableTrains.isEmpty()) {
-                        suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
-                        break;
-                    } else {
-                        System.out.println("There are no trains leaving from the " + answer + " station in the near future.");
-                        break;
+                    if (stationShortCode != null) {
+                        System.out.println(stationShortCode);
+                        System.out.println(trainData);
+                        List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+                        if (!suitableTrains.isEmpty()) {
+                            suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
+                            break;
+                        } else {
+                            System.out.println("There are no trains leaving from the " + answer + " station in the near future.");
+                            break;
+                        }
                     }
                 } else {
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
