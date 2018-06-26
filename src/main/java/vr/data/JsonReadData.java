@@ -8,31 +8,27 @@ import java.util.ArrayList;
 
 public class JsonReadData {
 
-    private String setStations(String departure){
-        //TODO poistetaanko virheviesti?
+    public ArrayList<Train> getTimeTable(String departure){
         if(departure.isEmpty()){
-            System.out.println("Error, station empty");
+            return null;
         }
         departure = departure.toUpperCase();
-        return departure;
+        return listOfTrains(departure);
     }
 
-    private String setStations(String departure, String arrival){
-        //TODO poistetaanko virheviesti?
-        if(departure.isEmpty()){
-            System.out.println("Error, station empty");
+    public ArrayList<Train> getTimeTable(String departure, String arrival){
+        if(departure.isEmpty() || arrival.isEmpty()){
+            return null;
         }
         departure = departure.toUpperCase().replace("/", "");
         arrival = arrival.toUpperCase().replace("/", "");
 
         String stationsCombined = departure + "/" + arrival;
 
-        return stationsCombined;
-
+        return listOfTrains(stationsCombined);
     }
 
-    public ArrayList<Train> getTimeTable(String shortcodes) {
-        String stations = setStations(shortcodes);
+    private ArrayList<Train> listOfTrains(String stations) {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         ArrayList<Train> trains = new ArrayList<>();
 
@@ -40,7 +36,7 @@ public class JsonReadData {
             URL url = new URL(URI.create(String.format("%s/live-trains/station/" + stations, baseurl)).toASCIIString());
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
-            trains = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
+            trains = mapper.readValue(url, tarkempiListanTyyppi);
 
         } catch (Exception ex) {
             System.out.println(ex);
