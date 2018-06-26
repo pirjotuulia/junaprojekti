@@ -36,7 +36,7 @@ public class UserInterface {
             System.out.print("Your choice: ");
             String answer = reader.nextLine();
             if (answer.equals("1")) {
-                Search search = new Search();
+                Search search = new Search(reader, bgrdata, trainData);
                 search.timetableSearch();
             } else if (answer.equals("2")) {
                 System.out.println("Call Santa at Santa Claus Village amusement park, Rovaniemi: +358 16 3562096");
@@ -47,8 +47,5 @@ public class UserInterface {
             }
         }
         System.out.println("Thank you for using our happiness search!");
-
     }
-
-
 }
