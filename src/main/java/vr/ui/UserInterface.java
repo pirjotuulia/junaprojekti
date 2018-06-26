@@ -21,12 +21,12 @@ public class UserInterface {
     }
 
     public void start() {
-        System.out.println("======================================");
-        System.out.println("          WE 'R HAPPINESS!  ");
-        System.out.println("======================================");
+        System.out.println("========================================");
+        System.out.println("            WE'R HAPPINESS!  ");
+        System.out.println("========================================");
         while (true) {
             System.out.println("");
-            System.out.println(" 1) Timetable search - commuter trains");
+            System.out.println(" 1) Timetable search - passenger trains");
             System.out.println(" 2) Call Santa.");
             System.out.println(" 3) Find nearest Sauna.");
             System.out.println(" 4) Exit\n");
@@ -156,7 +156,4 @@ public class UserInterface {
     private void trainLateOrInTime() {
         System.out.println("Sorry, we have no idea if your train's on time or not. Neither as VR..");
     }
-
-
 }
-//Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)
