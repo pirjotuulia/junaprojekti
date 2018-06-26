@@ -51,19 +51,19 @@ public class JsonReadData {
         try {
             URL url = new URL(URI.create(String.format("%s/live-trains/station/" + stations, baseurl)).toASCIIString());
             ObjectMapper mapper = new ObjectMapper();
-            CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
-            List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
+            CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
+            List<Train> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
             //TODO oma aliohjelmansa joka hakee ajat. Nyt vain testaus käyttö.
-            for (Juna juna : junat){
+            for (Train train : junat){
 
-                int junanNumero = juna.getTrainNumber();
-                String junanType = juna.getTrainType();
-                String junanCategory = juna.getTrainCategory();
+                int junanNumero = train.getTrainNumber();
+                String junanType = train.getTrainType();
+                String junanCategory = train.getTrainCategory();
 
                 System.out.println("Junan tyyppi: " + junanType + "Junan numero: " + junanNumero + " Junan kategoria: " + junanCategory);
 
-                Date aika = juna.getTimeTableRows().get(0).getScheduledTime();
+                Date aika = train.getTimeTableRows().get(0).getScheduledTime();
                 LocalDate aikaLocalDate = LocalDate.ofInstant(aika.toInstant(), ZoneId.systemDefault());
                 System.out.println(aikaLocalDate);
             }
@@ -72,7 +72,6 @@ public class JsonReadData {
             System.out.println(ex);
         }
     }
-
 
 
 }
