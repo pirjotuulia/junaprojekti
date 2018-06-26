@@ -96,9 +96,10 @@ public class UserInterface {
         }
     }
 
-    private void tulostaJunaAikatauluYhdeltaAsemalta(List<Train> trains) {
+    private void tulostaJunaAikatauluYhdeltaAsemalta(List<Train> trains, String departure) {
+        System.out.println("Next trains from " + departure + " station:");
         for (Train train : trains) {
-
+            System.out.println(train.getDepartureLocalDate() + " " + train.getTrainCategory());
         }
     }
 
@@ -165,7 +166,6 @@ public class UserInterface {
                 return;
             }
         }
-
     }
 
     private void trainLateOrInTime() {
