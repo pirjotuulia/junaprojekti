@@ -14,8 +14,7 @@ public class App {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
         BackgroundData bgrdata = new BackgroundData();
-        Map<String, String> stationShortCodes = bgrdata.generateShortCodes();
-        UserInterface ui = new UserInterface(reader, stationShortCodes);
+        UserInterface ui = new UserInterface(reader, bgrdata);
         ui.start();
     }
 }

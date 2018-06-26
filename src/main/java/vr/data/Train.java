@@ -1,5 +1,9 @@
 package vr.data;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +13,7 @@ public class Train {
     //LocalDate departureDate;  // Jackson ei oikein pidä Java 8 päivistä oletuksena
     //TODO: Yllä. Muuntaa ulospäin localdatea, eka deitti normaalisti. Taikka getteri.
     Date departureDate;
+    LocalDate departureLocalDate;
     String operatorShortCode;
     int operatorUICCode;
     boolean runningCurrently;
@@ -41,8 +46,17 @@ public class Train {
         this.commuterLineID = commuterLineID;
     }
 
-    public Date getDepartureDate() {
-        return departureDate;
+//    public Date getDepartureDate() {
+//        return departureDate;
+//    }
+
+    public LocalDate getDepartureLocalDate() {
+        Date input = departureDate;
+        Instant instant = input.toInstant();
+        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+        LocalDate departureLocal = zdt.toLocalDate();
+
+        return departureLocal;
     }
 
     public void setDepartureDate(Date departureDate) {
