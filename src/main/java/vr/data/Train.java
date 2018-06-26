@@ -1,9 +1,6 @@
 package vr.data;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +10,7 @@ public class Train {
     //LocalDate departureDate;  // Jackson ei oikein pidä Java 8 päivistä oletuksena
     //TODO: Yllä. Muuntaa ulospäin localdatea, eka deitti normaalisti. Taikka getteri.
     Date departureDate;
-    LocalDate departureLocalDate;
+    LocalDateTime departureLocalDateTime;
     String operatorShortCode;
     int operatorUICCode;
     boolean runningCurrently;
@@ -25,9 +22,11 @@ public class Train {
     String trainType;
     long version;
 
+    //TODO Timestamp
     @Override
     public String toString() {
-        return "Train{" + "cancelled=" + cancelled + ", commuterLineID='" + commuterLineID + '\'' + ", departureDate=" + departureDate + ", operatorShortCode='" + operatorShortCode + '\'' + ", operatorUICCode=" + operatorUICCode + ", runningCurrently=" + runningCurrently + ", timeTableRows=" + timeTableRows + ", timetableAcceptanceDate=" + timetableAcceptanceDate + ", timetableType='" + timetableType + '\'' + ", trainCategory='" + trainCategory + '\'' + ", trainNumber=" + trainNumber + ", trainType='" + trainType + '\'' + ", version=" + version + '}';
+        return "Train " + commuterLineID + " " + trainNumber + "\tleaves at ";
+       // return "Train{" + "cancelled=" + cancelled + ", commuterLineID='" + commuterLineID + '\'' + ", departureDate=" + departureDate + ", operatorShortCode='" + operatorShortCode + '\'' + ", operatorUICCode=" + operatorUICCode + ", runningCurrently=" + runningCurrently + ", timeTableRows=" + timeTableRows + ", timetableAcceptanceDate=" + timetableAcceptanceDate + ", timetableType='" + timetableType + '\'' + ", trainCategory='" + trainCategory + '\'' + ", trainNumber=" + trainNumber + ", trainType='" + trainType + '\'' + ", version=" + version + '}';
     }
 
     public boolean isCancelled() {
@@ -46,17 +45,17 @@ public class Train {
         this.commuterLineID = commuterLineID;
     }
 
-//    public Date getDepartureDate() {
-//        return departureDate;
-//    }
+    public Date getDepartureDate() {
+        return departureDate;
+    }
 
-    public LocalDate getDepartureLocalDate() {
-        Date input = departureDate;
-        Instant instant = input.toInstant();
-        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-        LocalDate departureLocal = zdt.toLocalDate();
+    //TODO korjaa localDateTime
+    public LocalDateTime getDepartureLocalDateTime() {
+        //Date input = departureDate;
+        Instant instant = Instant.ofEpochSecond(departureDate.getTime());
+        LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
 
-        return departureLocal;
+        return ldt;
     }
 
     public void setDepartureDate(Date departureDate) {
