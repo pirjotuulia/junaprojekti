@@ -1,6 +1,8 @@
 package vr.ui;
 
 import vr.data.BackgroundData;
+import vr.data.JsonReadData;
+import vr.data.Train;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +14,12 @@ import java.util.Scanner;
  */
 public class UserInterface {
     private Scanner reader;
-    //    private JsonRoadData trainData;
-    private Map<String, String> stationShortCodes;
+    private JsonReadData trainData;
+    private BackgroundData bgrdata;
 
-    public UserInterface(Scanner reader, Map<String, String> stationShortCodes) {
+    public UserInterface(Scanner reader, BackgroundData bgrdata) {
         this.reader = reader;
-        this.stationShortCodes = stationShortCodes;
+        this.bgrdata = bgrdata;
     }
 
     public void start() {
@@ -75,44 +77,40 @@ public class UserInterface {
             while (true) {
                 int givingUp = 0;
                 departure = reader.nextLine();
-                if (!this.stationShortCodes.containsKey(departure)) {
-                    if (givingUp > 3) {
-                        System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
-                        String answer = reader.nextLine();
-                        if (answer.equals("y")) {
-                            break outer;
-                        }
-                    }
-                    System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
-                    givingUp++;
-                } else {
+                if (bgrdata.isKey(departure)) {
                     break;
+                } else {
+                    helpCustomerFindStation(departure);
+                }
+                givingUp++;
+                if (givingUp > 3) {
+                    if (offerGivingUp()) {
+                        break outer;
+                    }
                 }
             }
             System.out.print("Write the name of the station you want to go to: ");
             while (true) {
                 int givingUp = 0;
                 arrival = reader.nextLine();
-                if (!this.stationShortCodes.containsKey(arrival)) {
-                    if (givingUp > 3) {
-                        System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
-                        String answer = reader.nextLine();
-                        if (answer.equals("y")) {
-                            break outer;
-                        }
-                    }
-                    System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
-                } else {
+                if (bgrdata.isKey(arrival)) {
                     break;
+                } else {
+                    helpCustomerFindStation(arrival);
+                }
+                givingUp++;
+                if (givingUp > 3) {
+                    if (offerGivingUp()) {
+                        break outer;
+                    }
                 }
             }
-            String departureShortCode = this.stationShortCodes.get(departure);
-            String arrivalShortCode = this.stationShortCodes.get(arrival);
-//            List<Train> suitableTrains = trainData.getTimeTable(departureShortCode,arrivalShortCode);
-            List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
+            String departureShortCode = bgrdata.getShortCode(departure);
+            String arrivalShortCode = bgrdata.getShortCode(arrival);
+            List<Train> suitableTrains = trainData.getTimeTable(departureShortCode, arrivalShortCode);
+//            List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
             if (!suitableTrains.isEmpty()) {
                 suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
-                break;
             } else {
                 System.out.println("There are no connections from " + departure + " station to " + arrival + " station in the near future.");
             }
@@ -121,6 +119,21 @@ public class UserInterface {
             if (answer.equals("n")) {
                 return;
             }
+        }
+    }
+
+    private void helpCustomerFindStation(String departure) {
+        List<String> nearestMatches = bgrdata.getNearestMatches(departure);
+        System.out.println("Did you mean for example ");
+        nearestMatches.stream().forEach(System.out::println);
+        System.out.println("Please write the full name of the station.");
+    }
+
+    private boolean offerGivingUp() {
+        System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
+        String answer = reader.nextLine();
+        if (answer.equals("y")) {
+            break outer;
         }
     }
 
