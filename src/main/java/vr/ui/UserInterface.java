@@ -71,39 +71,13 @@ public class UserInterface {
     private void timeTablesFromTo() {
         outer:
         while (true) {
-            String departure = "";
-            String arrival = "";
-            System.out.print("Write the name of the station you want to depart from: ");
-            while (true) {
-                int givingUp = 0;
-                departure = reader.nextLine();
-                if (bgrdata.isKey(departure)) {
-                    break;
-                } else {
-                    helpCustomerFindStation(departure);
-                }
-                givingUp++;
-                if (givingUp > 3) {
-                    if (offerGivingUp()) {
-                        break outer;
-                    }
-                }
+            String departure = getStation("departure");
+            if (departure==null) {
+                break outer;
             }
-            System.out.print("Write the name of the station you want to go to: ");
-            while (true) {
-                int givingUp = 0;
-                arrival = reader.nextLine();
-                if (bgrdata.isKey(arrival)) {
-                    break;
-                } else {
-                    helpCustomerFindStation(arrival);
-                }
-                givingUp++;
-                if (givingUp > 3) {
-                    if (offerGivingUp()) {
-                        break outer;
-                    }
-                }
+            String arrival = getStation("arrival");
+            if (arrival== null) {
+                break outer;
             }
             String departureShortCode = bgrdata.getShortCode(departure);
             String arrivalShortCode = bgrdata.getShortCode(arrival);
@@ -122,6 +96,28 @@ public class UserInterface {
         }
     }
 
+    private String getStation(String wanted) {
+        String station = "";
+        System.out.print("Write the name of the " + wanted + " station: ");
+        int givingUp = 0;
+        while (true) {
+            station = reader.nextLine();
+            if (bgrdata.isKey(station)) {
+                break;
+            } else {
+                helpCustomerFindStation(station);
+                givingUp++;
+                if (givingUp > 3) {
+                    if (offerGivingUp()) {
+                        return null;
+                    }
+                }
+                continue;
+            }
+        }
+        return station;
+    }
+
     private void helpCustomerFindStation(String departure) {
         List<String> nearestMatches = bgrdata.getNearestMatches(departure);
         System.out.println("Did you mean for example ");
@@ -133,18 +129,18 @@ public class UserInterface {
         System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
         String answer = reader.nextLine();
         if (answer.equals("y")) {
-            break outer;
+            return true;
         }
+        return false;
     }
-
 
     private void nextDepartures() {
         while (true) {
             System.out.print("Write the name of the station you want to depart from: ");
             while (true) {
                 String answer = reader.nextLine();
-                if (this.stationShortCodes.containsKey(answer)) {
-                    String stationShortCode = this.stationShortCodes.get(answer);
+                if (bgrdata.isKey(answer)) {
+                    String stationShortCode = bgrdata.getShortCode(answer);
 //                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
                     List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
                     if (!suitableTrains.isEmpty()) {
