@@ -20,6 +20,7 @@ public class UserInterface {
     public UserInterface(Scanner reader, BackgroundData bgrdata, JsonReadData trainData) {
         this.reader = reader;
         this.bgrdata = bgrdata;
+        this.trainData = trainData;
     }
 
     public void start() {
