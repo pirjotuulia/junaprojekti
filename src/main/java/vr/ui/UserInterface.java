@@ -141,8 +141,8 @@ public class UserInterface {
                 String answer = reader.nextLine();
                 if (bgrdata.isKey(answer)) {
                     String stationShortCode = bgrdata.getShortCode(answer);
-//                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
-                    List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
+                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+//                    List<String> suitableTrains = new ArrayList<>();//this line only for testing purposes, should not be included in producy
                     if (!suitableTrains.isEmpty()) {
                         suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
                         break;
