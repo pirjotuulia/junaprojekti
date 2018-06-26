@@ -96,6 +96,12 @@ public class UserInterface {
         }
     }
 
+    private void tulostaJunaAikatauluYhdeltaAsemalta(List<Train> trains) {
+        for (Train train : trains) {
+
+        }
+    }
+
     private String getStation(String wanted) {
         String station = "";
         System.out.print("Write the name of the " + wanted + " station: ");
@@ -136,23 +142,19 @@ public class UserInterface {
 
     private void nextDepartures() {
         while (true) {
-            System.out.print("Write the name of the station you want to depart from: ");
             while (true) {
-                String answer = reader.nextLine();
-                if (bgrdata.isKey(answer)) {
-                    String stationShortCode = bgrdata.getShortCode(answer);
-                    if (stationShortCode != null) {
-                        System.out.println(stationShortCode);
-                        System.out.println(trainData);
-                        List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
-                        if (!suitableTrains.isEmpty()) {
-                            suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
-                            break;
-                        } else {
-                            System.out.println("There are no trains leaving from the " + answer + " station in the near future.");
-                            break;
-                        }
+                String departure = getStation("departure");
+                String stationShortCode = bgrdata.getShortCode(departure);
+                if (stationShortCode != null) {
+                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+                    if (!suitableTrains.isEmpty()) {
+                        suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
+                        break;
+                    } else {
+                        System.out.println("There are no trains leaving from the " + departure + " station in the near future.");
+                        break;
                     }
+
                 } else {
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
                 }
@@ -163,6 +165,7 @@ public class UserInterface {
                 return;
             }
         }
+
     }
 
     private void trainLateOrInTime() {
