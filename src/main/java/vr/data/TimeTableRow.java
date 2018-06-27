@@ -2,11 +2,16 @@ package vr.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimeTableRow {
+
+
     private String stationShortCode;
     private int stationUICCode;
     private Locale countryCode;
@@ -16,6 +21,17 @@ public class TimeTableRow {
     private String commercialTrack;
     private boolean cancelled;
     private Date scheduledTime;
+    private LocalDateTime localDateTime;
+
+    //TODO tee erillinen setteri
+    public LocalDateTime getLocalDateTime() {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Instant instant = scheduledTime.toInstant();
+        LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
+        this.localDateTime = localDateTime;
+
+        return localDateTime;
+    }
 
     public String getStationShortCode() {
         return stationShortCode;

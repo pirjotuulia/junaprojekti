@@ -8,9 +8,8 @@ public class Train {
     boolean cancelled;
     String commuterLineID;
     //LocalDate departureDate;  // Jackson ei oikein pidä Java 8 päivistä oletuksena
-    //TODO: Yllä. Muuntaa ulospäin localdatea, eka deitti normaalisti. Taikka getteri.
     Date departureDate;
-    LocalDateTime departureLocalDateTime;
+    LocalDate departureLocalDate;
     String operatorShortCode;
     int operatorUICCode;
     boolean runningCurrently;
@@ -22,22 +21,20 @@ public class Train {
     String trainType;
     long version;
 
-    //TODO Timestamp
+    //TODO Timestamp?
     @Override
     public String toString() {
-        return "Train " + commuterLineID + " " + trainNumber + "\tleaves at " + departureLocalDateTime;
+        return "Train " + commuterLineID + " " + trainNumber + "\tleaves at " + getDepartureLocalDate();
        // return "Train{" + "cancelled=" + cancelled + ", commuterLineID='" + commuterLineID + '\'' + ", departureDate=" + departureDate + ", operatorShortCode='" + operatorShortCode + '\'' + ", operatorUICCode=" + operatorUICCode + ", runningCurrently=" + runningCurrently + ", timeTableRows=" + timeTableRows + ", timetableAcceptanceDate=" + timetableAcceptanceDate + ", timetableType='" + timetableType + '\'' + ", trainCategory='" + trainCategory + '\'' + ", trainNumber=" + trainNumber + ", trainType='" + trainType + '\'' + ", version=" + version + '}';
     }
 
-    //TODO korjaa localDateTime
-    public LocalDateTime getDepartureLocalDate() {
+    //TODO tarkista vielä onko oikein ja tee erillinen setteri
+    public LocalDate getDepartureLocalDate() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
-        Date date = departureDate;
-        Instant instant = date.toInstant();
-        LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
-        this.departureLocalDateTime = localDateTime;
-
-        return departureLocalDateTime;
+        Instant instant = departureDate.toInstant();
+        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        this.departureLocalDate = localDate;
+        return localDate;
     }
 
     public boolean isCancelled() {

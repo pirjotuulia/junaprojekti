@@ -137,7 +137,7 @@ public class Search {
     private void printDepartureScheduleFromOneStation(List<Train> trains, String departure) {
         System.out.println("Next trains from " + departure + " station:");
         for (Train train : trains) {
-            System.out.println(train.getDepartureLocalDateTime() + " " + train.getTrainCategory());
+            System.out.println(train.getDepartureLocalDate() + " " + train.getTrainCategory());
         }
     }
 
