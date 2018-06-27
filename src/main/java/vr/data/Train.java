@@ -9,7 +9,6 @@ public class Train {
     String commuterLineID;
     //LocalDate departureDate;  // Jackson ei oikein pidä Java 8 päivistä oletuksena
     Date departureDate;
-    LocalDate departureLocalDate;
     String operatorShortCode;
     int operatorUICCode;
     boolean runningCurrently;
@@ -33,7 +32,6 @@ public class Train {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant instant = departureDate.toInstant();
         LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
-        this.departureLocalDate = localDate;
         return localDate;
     }
 

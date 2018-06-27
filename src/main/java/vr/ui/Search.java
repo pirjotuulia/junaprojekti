@@ -172,7 +172,7 @@ public class Search {
         System.out.println("---------------------------------------------------------------------------");
         for (Train train : trains) {
 
-            System.out.println(train.getDepartureLocalDate() + " | " + " DestinationUnknown " + " | " + train.getTrainCategory() + " | ");
+            System.out.println(train.getDepartureLocalDate() + " | " + getDestinationStationName(train) + " | " + train.getTrainCategory() + " | ");
         }
     }
 
@@ -181,8 +181,6 @@ public class Search {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
-
-
         }
     }
 
@@ -190,7 +188,7 @@ public class Search {
         LocalDateTime scheduledTime = null;
         for (TimeTableRow ttr : schedule) {
             if (ttr.getStationShortCode().equals(stationShortCode) && ttr.getType().equals(depOrArr)) {
-                scheduledTime = ttr.getScheduledTime();//TimeTableRows method returns LocalDateTime in the final version.
+                scheduledTime = ttr.getLocalDateTime();//TimeTableRows method returns LocalDateTime in the final version.
             }
         }
         return scheduledTime;

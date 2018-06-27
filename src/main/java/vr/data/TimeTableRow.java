@@ -21,14 +21,12 @@ public class TimeTableRow {
     private String commercialTrack;
     private boolean cancelled;
     private Date scheduledTime;
-    private LocalDateTime localDateTime;
 
     //TODO toimii, getteri tekee muunnoksen samalla. Halutessa voi tehdä muutokset aliohjelman.
     public LocalDateTime getLocalDateTime() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant instant = scheduledTime.toInstant();
         LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
-        this.localDateTime = localDateTime;
 
         return localDateTime;
     }
