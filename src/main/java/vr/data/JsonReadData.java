@@ -31,6 +31,7 @@ public class JsonReadData {
     private ArrayList<Train> listOfTrains(String stations) {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         ArrayList<Train> trains = new ArrayList<>();
+        ArrayList<Train> trainsFiltered = new ArrayList<>();
 
         try {
             URL url = new URL(URI.create(String.format("%s/live-trains/station/" + stations, baseurl)).toASCIIString());
@@ -40,7 +41,13 @@ public class JsonReadData {
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return trains;
+        for(Train train : trains){
+            if(train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter")){
+                trainsFiltered.add(train);
+            }
+        }
+
+        return trainsFiltered;
     }
 
 
