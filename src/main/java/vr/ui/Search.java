@@ -93,6 +93,7 @@ public class Search {
             } else {
                 System.out.println("Unfortunately we couldn't find the train stations for you.");
             }
+            System.out.println ("----------------------------------------------");
             System.out.print("Happy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
@@ -146,9 +147,31 @@ public class Search {
     }
 
     private void printDepartureScheduleFromOneStation(List<Train> trains, String departure) {
-        System.out.println("Next trains from " + departure + " station:");
+
+        System.out.println ("");
+        System.out.println ("");
+        System.out.println("Looking for trains leaving from " + departure + " station:");
+        System.out.println ("");
+        System.out.println ("#########################################################");
+        System.out.println ("___________   _______________________________________^__");
+        System.out.println (" ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\\");
+        System.out.println ("|   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____\\");
+        System.out.println ("|___| |___|||| |___| |___| |___|  | O | O | |  |  |        \\");
+        System.out.println ("           |||                    |___|___| |  |__|         )");
+        System.out.println ("___________|||______________________________|______________/");
+        System.out.println ("           ||| Happiness onboard!    /--------");
+        System.out.println ("#########################################################");
+
+
+        System.out.println ();
+        System.out.println ("Below you can find trains that are leaving next from: " + departure);
+        System.out.println ("");
+        System.out.println ("                          TIMETABLE                                     " );
+        System.out.println ("---------------------------------------------------------------------------");
+        System.out.println ("Leaving time  //      " +        "Destination  //        " +      " Type of Train  ");
+        System.out.println ("---------------------------------------------------------------------------");
         for (Train train : trains) {
-            System.out.println(train.getDepartureLocalDate() + " " + train.getTrainCategory());
+            System.out.println(train.getDepartureLocalDate()+ " | " + " DestinationUnknown " + " | " + train.getTrainCategory () + " | ");
         }
     }
 
