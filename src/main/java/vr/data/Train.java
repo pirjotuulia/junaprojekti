@@ -28,7 +28,7 @@ public class Train {
        // return "Train{" + "cancelled=" + cancelled + ", commuterLineID='" + commuterLineID + '\'' + ", departureDate=" + departureDate + ", operatorShortCode='" + operatorShortCode + '\'' + ", operatorUICCode=" + operatorUICCode + ", runningCurrently=" + runningCurrently + ", timeTableRows=" + timeTableRows + ", timetableAcceptanceDate=" + timetableAcceptanceDate + ", timetableType='" + timetableType + '\'' + ", trainCategory='" + trainCategory + '\'' + ", trainNumber=" + trainNumber + ", trainType='" + trainType + '\'' + ", version=" + version + '}';
     }
 
-    //TODO tarkista vielä onko oikein ja tee erillinen setteri
+    //TODO toimii, getteri tekee muunnoksen samalla. Halutessa voi tehdä muutokset aliohjelman.
     public LocalDate getDepartureLocalDate() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant instant = departureDate.toInstant();

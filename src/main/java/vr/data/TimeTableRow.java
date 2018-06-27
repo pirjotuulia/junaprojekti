@@ -23,7 +23,7 @@ public class TimeTableRow {
     private Date scheduledTime;
     private LocalDateTime localDateTime;
 
-    //TODO tee erillinen setteri
+    //TODO toimii, getteri tekee muunnoksen samalla. Halutessa voi tehdä muutokset aliohjelman.
     public LocalDateTime getLocalDateTime() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant instant = scheduledTime.toInstant();
