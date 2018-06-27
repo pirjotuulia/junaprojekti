@@ -2,22 +2,24 @@ package vr.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class JsonReadData {
 
-    public ArrayList<Train> getTimeTable(String departure){
-        if(departure.isEmpty()){
+    public ArrayList<Train> getTimeTable(String departure) {
+        if (departure.isEmpty()) {
             return null;
         }
         departure = departure.toUpperCase();
         return listOfTrains(departure);
     }
 
-    public ArrayList<Train> getTimeTable(String departure, String arrival){
-        if(departure.isEmpty() || arrival.isEmpty()){
+    public ArrayList<Train> getTimeTable(String departure, String arrival) {
+        if (departure.isEmpty() || arrival.isEmpty()) {
             return null;
         }
         departure = departure.toUpperCase().replace("/", "");
@@ -38,12 +40,25 @@ public class JsonReadData {
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
             trains = mapper.readValue(url, tarkempiListanTyyppi);
+//
+//            Iterator<Train> trainsIterator = trains.iterator();
+//            while (trainsIterator.hasNext()) {
+//                if (!(trainsIterator.next().equals("Long-distance") || trainsIterator.next().equals("Commuter"))) {
+//                    trains.remove(trainsIterator);
+//                }
+//            }
 
-        } catch (Exception ex) {
+
+        } catch (
+                Exception ex)
+
+        {
             System.out.println(ex);
         }
-        for(Train train : trains){
-            if(train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter")){
+
+        // Very bad programming but works
+        for (Train train : trains) {
+            if (train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter")) {
                 trainsFiltered.add(train);
             }
         }
