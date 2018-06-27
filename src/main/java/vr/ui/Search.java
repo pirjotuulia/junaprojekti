@@ -24,22 +24,22 @@ public class Search {
     }
 
     public void timetableSearch() {
-        System.out.println("======================================");
-        System.out.println("     Travel by train in Finland.");
-        System.out.println("======================================");
-        System.out.println("No trains today!");
-        System.out.println("Just kidding.. ;-)");
-        System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
-        System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
-        System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
-        System.out.print(" Time to choose! ");
-        String answer = reader.nextLine();
-        if (answer.equals("1")) {
-            nextDepartures();
-        } else if (answer.equals("2")) {
-            timeTablesFromTo();
-        } else if (answer.equals("3")) {
-            trainLateOrInTime();
+            System.out.println("======================================");
+            System.out.println("     Travel by train in Finland.");
+            System.out.println("======================================");
+            System.out.println("No trains today!");
+            System.out.println("Just kidding.. ;-)");
+            System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
+            System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
+            System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
+            System.out.print(" Time to choose! ");
+            String answer = reader.nextLine();
+            if (answer.equals("1")) {
+                nextDepartures();
+            } else if (answer.equals("2")) {
+                timeTablesFromTo();
+            } else if (answer.equals("3")) {
+                trainLateOrInTime();
         }
     }
 
