@@ -29,16 +29,16 @@ public class Search {
     public void timetableSearch() { // dialogi mihin mennään, mitä halutaan hakea
 
         System.out.println("======================================");
-        System.out.println("     Travel by train in Finland.");
+        System.out.println("     Explore Finland by train?");
         System.out.println("======================================");
         System.out.println("No trains today!");
         System.out.println("Just kidding.. ;-)");
-        System.out.println("-----------------------------");
+        System.out.println("======================================");
         System.out.println(" 1) Train search: NO spesific destination");
         System.out.println(" 2) Train search: TO a spesific destination");
         System.out.println(" 3) Is my train on time?");
         System.out.print(" Time to choose! ");
-        System.out.println("------------------------------");
+        System.out.println("======================================");
         System.out.println("Explanations of the search");
         System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
         System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
@@ -106,7 +106,7 @@ public class Search {
             } else {
                 System.out.println("Unfortunately we couldn't find the train stations for you.");
             }
-            System.out.println("----------------------------------------------");
+            System.out.println("======================================");;
             System.out.print("Happy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
@@ -180,23 +180,27 @@ public class Search {
         System.out.println("Below you can find trains that are leaving next from: " + departure);
         System.out.println("");
         System.out.println("                          TIMETABLE                                     ");
-        System.out.println("---------------------------------------------------------------------------");
-        System.out.println("Date & time \t     Destination  \t \t \t    Type of Train  ");
-        System.out.println("---------------------------------------------------------------------------");
+        System.out.println("=========================================================================");;
+        System.out.println("Date & time \t     Destination  \t    Type of Train  ");
+        System.out.println("=========================================================================");;
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + getDestinationStationName(train) + "  \t \t \t " + train.getTrainCategory() + " ");
+            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + getDestinationStationName(train) + "  \t  " + train.getTrainCategory() + " ");
         }
     }
 
     private void printDepartureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {
         System.out.println("Timetable from: " + bgrdata.getStationName(departureShortCode) + " to " + bgrdata.getStationName(arrivalShortCode));
+        System.out.println("                          TIMETABLE                                     ");
+        System.out.println("=========================================================================");;
+        System.out.println("Leaving time \t     Arrival time \t     Type of Train  ");
+        System.out.println("=========================================================================");;
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + timef.format(arrivalTime) + " \t " + train.getTrainCategory() + " ");
+            System.out.println(datef.format(departureTime) + " \t " + timef.format(departureTime) + " \t " + timef.format(arrivalTime) + " \t " + train.getTrainCategory() + " ");
         }
     }
 
