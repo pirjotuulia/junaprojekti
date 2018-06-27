@@ -25,8 +25,19 @@ public class Train {
     //TODO Timestamp
     @Override
     public String toString() {
-        return "Train " + commuterLineID + " " + trainNumber + "\tleaves at ";
+        return "Train " + commuterLineID + " " + trainNumber + "\tleaves at " + departureLocalDateTime;
        // return "Train{" + "cancelled=" + cancelled + ", commuterLineID='" + commuterLineID + '\'' + ", departureDate=" + departureDate + ", operatorShortCode='" + operatorShortCode + '\'' + ", operatorUICCode=" + operatorUICCode + ", runningCurrently=" + runningCurrently + ", timeTableRows=" + timeTableRows + ", timetableAcceptanceDate=" + timetableAcceptanceDate + ", timetableType='" + timetableType + '\'' + ", trainCategory='" + trainCategory + '\'' + ", trainNumber=" + trainNumber + ", trainType='" + trainType + '\'' + ", version=" + version + '}';
+    }
+
+    //TODO korjaa localDateTime
+    public LocalDateTime getDepartureLocalDate() {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Date date = departureDate;
+        Instant instant = date.toInstant();
+        LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
+        this.departureLocalDateTime = localDateTime;
+
+        return departureLocalDateTime;
     }
 
     public boolean isCancelled() {
@@ -49,14 +60,6 @@ public class Train {
         return departureDate;
     }
 
-    //TODO korjaa localDateTime
-    public LocalDateTime getDepartureLocalDateTime() {
-        //Date input = departureDate;
-        Instant instant = Instant.ofEpochSecond(departureDate.getTime());
-        LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-
-        return ldt;
-    }
 
     public void setDepartureDate(Date departureDate) {
         this.departureDate = departureDate;

@@ -154,6 +154,7 @@ public class UserInterface {
                     } else {
                         System.out.println("There are no trains leaving from the " + departure + " station in the near future.");
                         break;
+
                     }
 
                 } else {
