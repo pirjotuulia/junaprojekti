@@ -6,6 +6,7 @@ import vr.data.TimeTableRow;
 import vr.data.Train;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Search {
@@ -13,12 +14,14 @@ public class Search {
     private BackgroundData bgrdata;
     private JsonReadData trainData;
     private Locale loc;
+    private DateTimeFormatter df;
 
     public Search(Scanner reader, BackgroundData bgrdata, JsonReadData trainData) {
         this.reader = reader;
         this.bgrdata = bgrdata;
         this.trainData = trainData;
         this.loc = new Locale("fi", "FI");
+        this.df = DateTimeFormatter.ofPattern("dd.MM. kk.mm");
     }
 
     public void timetableSearch() { // dialogi mihin mennään, mitä halutaan hakea
@@ -55,7 +58,7 @@ public class Search {
                 String departure = getStation("departure"); // tänne tallennetaan aseman nimi
                 String stationShortCode = bgrdata.getShortCode(departure); // etsitään mapista
                 if (stationShortCode != null) {
-                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);// saadaan lista junista
                     suitableTrains = leavingTrains(suitableTrains, stationShortCode);
                     if (!suitableTrains.isEmpty()) {
                         printDepartureScheduleFromOneStation(suitableTrains, departure, stationShortCode);//ui presumes that all trains on the list are passenger trains.
@@ -181,7 +184,7 @@ public class Search {
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
-            System.out.println(departureTime + " \t " + " \t " + getDestinationStationName(train) + " \t " + train.getTrainCategory() + " ");
+            System.out.println(df.format(departureTime) + " \t " + " \t " + getDestinationStationName(train) + " \t " + train.getTrainCategory() + " ");
         }
     }
 
