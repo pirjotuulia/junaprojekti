@@ -37,11 +37,9 @@ public class JsonReadData {
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
             trains = mapper.readValue(url, tarkempiListanTyyppi);
-
         } catch (Exception ex) {
             System.out.println(ex);
         }
-
         return trains;
     }
 

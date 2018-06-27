@@ -6,9 +6,7 @@ import vr.data.TimeTableRow;
 import vr.data.Train;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Search {
     private Scanner reader;
@@ -50,6 +48,7 @@ public class Search {
                 String stationShortCode = bgrdata.getShortCode(departure);
                 if (stationShortCode != null) {
                     List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+                    suitableTrains = leavingTrains(suitableTrains, stationShortCode);
                     if (!suitableTrains.isEmpty()) {
                         printDepartureScheduleFromOneStation(suitableTrains, departure);//ui presumes that all trains on the list are passenger trains.
                         break;
@@ -61,7 +60,7 @@ public class Search {
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
                 }
             }
-            System.out.print("Happy? Want to search for more departures? (y/n) ");
+            System.out.print("\nHappy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
                 return;
@@ -85,8 +84,8 @@ public class Search {
             if (departureShortCode != null && arrivalShortCode != null) {
                 List<Train> suitableTrains = trainData.getTimeTable(departureShortCode, arrivalShortCode);
                 if (!suitableTrains.isEmpty()) {
-                    //printDepartureAndArrivalWithDateAndTime(suitableTrains, departureShortCode, arrivalShortCode);
-                    suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
+                    printDepartureAndArrivalWithDateAndTime(suitableTrains, departureShortCode, arrivalShortCode);
+      //              suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
                 } else {
                     System.out.println("There are no connections from " + departure + " station to " + arrival + " station in the near future.");
                 }
@@ -192,6 +191,16 @@ public class Search {
             }
         }
         return scheduledTime;
+    }
+
+    private List<Train> leavingTrains(List<Train> departure, String departureShortCode) {
+        Iterator<Train> it = departure.iterator();
+        while(it.hasNext()) {
+            if (!it.next().getTimeTableRows().get(0).getStationShortCode().equals(departureShortCode)) {
+                it.remove();
+            }
+        }
+        return departure;
     }
 
     private void trainLateOrInTime() {
