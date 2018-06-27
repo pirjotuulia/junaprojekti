@@ -46,7 +46,7 @@ public class Search {
                 if (stationShortCode != null) {
                     List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
                     if (!suitableTrains.isEmpty()) {
-                        suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
+                        printDepartureScheduleFromOneStation(suitableTrains, departure);//ui presumes that all trains on the list are passenger trains.
                         break;
                     } else {
                         System.out.println("There are no trains leaving from the " + departure + " station in the near future.");
