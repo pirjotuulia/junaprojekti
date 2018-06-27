@@ -1,4 +1,4 @@
-package vr.ui;
+package vr.ui; // tänne refaktoroitu juna-aikataulujen haku UI:sta
 
 import vr.data.BackgroundData;
 import vr.data.JsonReadData;
@@ -23,16 +23,23 @@ public class Search {
         this.loc = new Locale("fi", "FI");
     }
 
-    public void timetableSearch() {
+    public void timetableSearch() { // dialogi mihin mennään, mitä halutaan hakea
         System.out.println("======================================");
         System.out.println("     Travel by train in Finland.");
         System.out.println("======================================");
         System.out.println("No trains today!");
         System.out.println("Just kidding.. ;-)");
+        System.out.println ("-----------------------------");
+        System.out.println(" 1) Train search: NO spesific destination");
+        System.out.println(" 2) Train search: TO a spesific destination");
+        System.out.println(" 3) Is my train on time?");
+        System.out.print(" Time to choose! ");
+        System.out.println ("------------------------------");
+        System.out.println ("Explanations of the search");
         System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
         System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
         System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
-        System.out.print(" Time to choose! ");
+        System.out.println ();
         String answer = reader.nextLine();
         if (answer.equals("1")) {
             nextDepartures();
@@ -43,15 +50,15 @@ public class Search {
         }
     }
 
-    private void nextDepartures() {
+    private void nextDepartures() { // mihin mennään
         while (true) {
             while (true) {
-                String departure = getStation("departure");
-                String stationShortCode = bgrdata.getShortCode(departure);
+                String departure = getStation("departure"); // tänne tallennetaan aseman nimi
+                String stationShortCode = bgrdata.getShortCode(departure); // etsitään mapista
                 if (stationShortCode != null) {
-                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
+                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode); // saadaan lista junista
                     if (!suitableTrains.isEmpty()) {
-                        printDepartureScheduleFromOneStation(suitableTrains, departure);//ui presumes that all trains on the list are passenger trains.
+                        printDepartureScheduleFromOneStation(suitableTrains, departure, stationShortCode);//ui presumes that all trains on the list are passenger trains.
                         break;
                     } else {
                         System.out.println("There are no trains leaving from the " + departure + " station in the near future.");
@@ -68,6 +75,7 @@ public class Search {
             }
         }
     }
+
 
     private void timeTablesFromTo() {
         outer:
@@ -102,16 +110,16 @@ public class Search {
         }
     }
 
-    private String getStation(String wanted) {
+    private String getStation(String wanted) { //  Tältä voidaan kysyä sekä lähtö että saapumisasemaa
         String station = "";
         System.out.print("Write the name of the " + wanted + " station: ");
         int givingUp = 0;
         while (true) {
             station = reader.nextLine();
-            if (bgrdata.isKey(station)) {
+            if (bgrdata.isKey(station)) { // tarkistetaan löytyykö saatu vastaus suoraan backgrounddata mapilta, jos löytyy, niin palautetaan asema nimi
                 break;
             } else {
-                helpCustomerFindStation(station);
+                helpCustomerFindStation(station); // jos ei löydy, niin annetaan toinen vaihtoehto
                 givingUp++;
                 if (givingUp > 3) {
                     if (offerGivingUp()) {
@@ -125,7 +133,7 @@ public class Search {
     }
 
     private void helpCustomerFindStation(String station) {
-        List<String> nearestMatches = bgrdata.getNearestMatches(station);
+        List<String> nearestMatches = bgrdata.getNearestMatches(station);  // kirjoitetaan lista lähimmistä mätcheistä, jos ei löydy
         System.out.println("Did you mean for example ");
         nearestMatches.stream().forEach(System.out::println);
         System.out.println("Please write the full name of the station.");
@@ -146,11 +154,11 @@ public class Search {
         return bgrdata.getStationName(shortCode);
     }
 
-    private void printDepartureScheduleFromOneStation(List<Train> trains, String departure) {
+    private void printDepartureScheduleFromOneStation(List<Train> trains, String departure, String departureShortCode) {
 
         System.out.println("");
         System.out.println("");
-        System.out.println("Looking for trains leaving from " + departure + " station:");
+        System.out.println("Looking for trains leaving from " + departure + "station:");
         System.out.println("");
         System.out.println("#########################################################");
         System.out.println("___________   _______________________________________^__");
@@ -168,17 +176,18 @@ public class Search {
         System.out.println("");
         System.out.println("                          TIMETABLE                                     ");
         System.out.println("---------------------------------------------------------------------------");
-        System.out.println("Leaving time  //      " + "Destination  //        " + " Type of Train  ");
+        System.out.println("Leaving date \t " + "Leaving time \t     Destination  \t     Type of Train  ");
         System.out.println("---------------------------------------------------------------------------");
         for (Train train : trains) {
-
-            System.out.println(train.getDepartureLocalDate() + " | " + getDestinationStationName(train) + " | " + train.getTrainCategory() + " | ");
+            List<TimeTableRow> timetable = train.getTimeTableRows();
+            LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
+            System.out.println(departureTime + " \t " + " \t " + getDestinationStationName(train) + " \t " + train.getTrainCategory() + " ");
         }
     }
 
     private void printDepartureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {
         for (Train train : trains) {
-            List<TimeTableRow> timetable = train.getTimeTableRows();
+                List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
         }
