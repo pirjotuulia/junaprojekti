@@ -30,17 +30,17 @@ public class Search {
         System.out.println("======================================");
         System.out.println("No trains today!");
         System.out.println("Just kidding.. ;-)");
-        System.out.println ("-----------------------------");
+        System.out.println("-----------------------------");
         System.out.println(" 1) Train search: NO spesific destination");
         System.out.println(" 2) Train search: TO a spesific destination");
         System.out.println(" 3) Is my train on time?");
         System.out.print(" Time to choose! ");
-        System.out.println ("------------------------------");
-        System.out.println ("Explanations of the search");
+        System.out.println("------------------------------");
+        System.out.println("Explanations of the search");
         System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
         System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
         System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
-        System.out.println ();
+        System.out.println();
         String answer = reader.nextLine();
         if (answer.equals("1")) {
             nextDepartures();
@@ -96,7 +96,7 @@ public class Search {
                 List<Train> suitableTrains = trainData.getTimeTable(departureShortCode, arrivalShortCode);
                 if (!suitableTrains.isEmpty()) {
                     printDepartureAndArrivalWithDateAndTime(suitableTrains, departureShortCode, arrivalShortCode);
-      //              suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
+                    //              suitableTrains.stream().forEach(System.out::println);//ui presumes that all trains on the list are passenger trains.
                 } else {
                     System.out.println("There are no connections from " + departure + " station to " + arrival + " station in the near future.");
                 }
@@ -189,7 +189,7 @@ public class Search {
 
     private void printDepartureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {
         for (Train train : trains) {
-                List<TimeTableRow> timetable = train.getTimeTableRows();
+            List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
         }
@@ -207,7 +207,7 @@ public class Search {
 
     private List<Train> leavingTrains(List<Train> departure, String departureShortCode) {
         Iterator<Train> it = departure.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             if (!it.next().getTimeTableRows().get(0).getStationShortCode().equals(departureShortCode)) {
                 it.remove();
             }
