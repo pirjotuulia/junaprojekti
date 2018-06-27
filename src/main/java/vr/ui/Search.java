@@ -28,15 +28,16 @@ public class Search {
         System.out.println("No trains today!");
         System.out.println("Just kidding.. ;-)");
         System.out.println ("-----------------------------");
-        System.out.println(" 1) Train search: NO spesific destination");
-        System.out.println(" 2) Train search: TO a spesific destination");
-        System.out.println(" 3) Is my train on time?");
-        System.out.print(" Time to choose! ");
+        System.out.println(" 1) Choose 1 if you don't have a specific destination");
+        System.out.println(" 2) Choose 2 if you have a specific destination");
+        System.out.println(" 3) Check if the train is on time?");
+        System.out.println ("");
+        System.out.println(" Time to choose! ");
         System.out.println ("------------------------------");
         System.out.println ("Explanations of the search");
         System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
         System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
-        System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
+        System.out.println(" 3) Your train might be on time, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
         System.out.println ();
         String answer = reader.nextLine();
         if (answer.equals("1")) {
@@ -56,7 +57,6 @@ public class Search {
                 if (stationShortCode != null) {
                     List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);
                     suitableTrains = leavingTrains(suitableTrains, stationShortCode);
-                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode); // saadaan lista junista
                     if (!suitableTrains.isEmpty()) {
                         printDepartureScheduleFromOneStation(suitableTrains, departure, stationShortCode);//ui presumes that all trains on the list are passenger trains.
                         break;
@@ -176,7 +176,7 @@ public class Search {
         System.out.println("");
         System.out.println("                          TIMETABLE                                     ");
         System.out.println("---------------------------------------------------------------------------");
-        System.out.println("Leaving date \t " + "Leaving time \t     Destination  \t     Type of Train  ");
+        System.out.println("Leaving date & time \t     Destination  \t     Type of Train  ");
         System.out.println("---------------------------------------------------------------------------");
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
