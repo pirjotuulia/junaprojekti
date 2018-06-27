@@ -25,7 +25,7 @@ public class BackgroundData {
             List<Stations> stations=mapper.readValue (url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
             for (Stations st : stations) {
-                this.stationShortCodes.put(st.getStationName(), st.getStationShortCode());
+                this.stationShortCodes.put(st.getStationName().toUpperCase(), st.getStationShortCode());
             }
 
         } catch (Exception ex) {
@@ -35,16 +35,15 @@ public class BackgroundData {
     }
 
     public boolean isKey(String answer) { // method that tells the user if the map contains the key
-        return this.stationShortCodes.containsKey (answer);
+        return this.stationShortCodes.containsKey (answer.toUpperCase());
     }
 
     public String getShortCode(String nameOfStation) { // method that should return the shortcode if found, null if not found
-        if (isKey (nameOfStation)) {
-            return this.stationShortCodes.get (nameOfStation);
+        if (isKey (nameOfStation.toLowerCase())) {
+            return this.stationShortCodes.get (nameOfStation.toUpperCase());
         } else {
             return null;
         }
-
     }
 
     public String getStationName(String shortCode) {
@@ -60,7 +59,7 @@ public class BackgroundData {
         // method that would return List of nearest String if similar String are found in Map
         List<String> nearest = new ArrayList<>();  // luodaan lista
         for (String name: stationShortCodes.keySet()){ // käy läpi jokaisen keysetin alkion
-            if (name.startsWith(match)) { // ottaa huomioon kaikki, jotka matchaavat kirjoitettuun alkuun
+            if (name.startsWith(match.toUpperCase())) { // ottaa huomioon kaikki, jotka matchaavat kirjoitettuun alkuun
                 nearest.add(name); // lisää alkiot listaan
             }
         }

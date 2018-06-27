@@ -40,6 +40,7 @@ public class JsonReadData {
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
             trains = mapper.readValue(url, tarkempiListanTyyppi);
+
 //
 //            Iterator<Train> trainsIterator = trains.iterator();
 //            while (trainsIterator.hasNext()) {
@@ -49,10 +50,7 @@ public class JsonReadData {
 //            }
 
 
-        } catch (
-                Exception ex)
-
-        {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
 
