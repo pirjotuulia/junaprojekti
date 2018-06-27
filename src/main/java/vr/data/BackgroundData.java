@@ -47,6 +47,15 @@ public class BackgroundData {
 
     }
 
+    public String getStationName(String shortCode) {
+        for(Map.Entry<String, String> k : stationShortCodes.entrySet()) {
+            if (k.getValue().equals(shortCode)) {
+                return k.getKey();
+            }
+        }
+        return null;
+    }
+
     public List<String> getNearestMatches(String match) {
         // method that would return List of nearest String if similar String are found in Map
         List<String> nearest = new ArrayList<>();  // luodaan lista
