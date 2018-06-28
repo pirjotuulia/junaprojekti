@@ -14,7 +14,7 @@ public class JsonReadData {
         if (departure.isEmpty()) {
             return null;
         }
-        departure = departure.toUpperCase();
+        departure = departure.toUpperCase() + "?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=10&include_nonstopping=false";
         return listOfTrains(departure);
     }
 
