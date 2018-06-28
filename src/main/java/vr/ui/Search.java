@@ -89,7 +89,7 @@ public class Search {
                 if (!suitableTrains.isEmpty()) {
                     print.departureAndArrivalWithDateAndTime(suitableTrains, departureShortCode, arrivalShortCode); //print out timetables
                 } else {
-                    System.out.println("There are no connections from " + departure + " station to " + arrival + " station in the near future.");
+                    System.out.println("There are no direct connections from " + departure + " station to " + arrival + " station in the near future.");
                 }
             } else {
                 System.out.println("Unfortunately we couldn't find the train stations for you.");
@@ -105,9 +105,9 @@ public class Search {
 
     private String getStation(String wanted) { // get station name from user
         String station = "";
-        System.out.print("Write the name of the " + wanted + " station: ");
         int givingUp = 0; //count for unsuccessfull tries
         while (true) {
+            System.out.print("Write the name of the " + wanted + " station: ");
             station = reader.nextLine().toUpperCase(); //get input
             if (bgrdata.isKey(station)) { //if input string is found in map
                 break;
@@ -129,7 +129,9 @@ public class Search {
     private void helpCustomerFindStation(String station) { //dialogue and offer of most likely stations
         if (!station.isEmpty()) {
             List<String> nearestMatches = bgrdata.getNearestMatches(station); //get stationnames which start with what the user wrote
-            System.out.println("Did you mean for example ");//offer list of found names as a hint
+            if (!nearestMatches.isEmpty()) {
+                System.out.println("Did you mean for example ");//offer list of found names as a hint
+            }
             nearestMatches.stream().forEach(System.out::println);
         }
         System.out.println("Please write the full name of the station.");
@@ -138,10 +140,10 @@ public class Search {
     private boolean offerGivingUp() { //this is offered as a way out
         System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
         String answer = reader.nextLine();
-        if (answer.equals("y")) {
-            return true;
+        if (answer.equals("n")) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     private List<Train> leavingTrains(List<Train> departure, String departureShortCode) { //filter out arriving trains from one stations full train list and return departing trains

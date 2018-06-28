@@ -21,6 +21,7 @@ public class TimeTableRow {
     private String commercialTrack;
     private boolean cancelled;
     private Date scheduledTime;
+    private int differenceInMinutes;
 
     //TODO toimii, getteri tekee muunnoksen samalla. Halutessa voi tehdä muutokset aliohjelman.
     public LocalDateTime getLocalDateTime() {
@@ -29,6 +30,14 @@ public class TimeTableRow {
         LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
 
         return localDateTime;
+    }
+
+    public int getDifferenceInMinutes() {
+        return differenceInMinutes;
+    }
+
+    public void setDifferenceInMinutes(int differenceInMinutes) {
+        this.differenceInMinutes = differenceInMinutes;
     }
 
     public String getStationShortCode() {

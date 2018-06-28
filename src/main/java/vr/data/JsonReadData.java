@@ -14,7 +14,7 @@ public class JsonReadData {
         if (departure.isEmpty()) {
             return null;
         }
-        departure = departure.toUpperCase();
+        departure = departure.toUpperCase() + "?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=10&include_nonstopping=false";
         return listOfTrains(departure);
     }
 
@@ -35,7 +35,7 @@ public class JsonReadData {
         ArrayList<Train> trains = new ArrayList<>();
 
         try {
-            URL url = new URL(URI.create(String.format("%s/live-trains/station/" + stations, baseurl)).toASCIIString());
+            URL url = new URL(URI.create(String.format("%s/live-trains/station/" + stations + "?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=10&include_nonstopping=false", baseurl)).toASCIIString());
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
             trains = mapper.readValue(url, tarkempiListanTyyppi);
@@ -50,7 +50,7 @@ public class JsonReadData {
 
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            //System.out.println(ex);
         }
 
         return trains;
