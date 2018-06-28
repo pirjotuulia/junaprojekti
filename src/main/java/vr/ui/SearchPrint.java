@@ -65,7 +65,7 @@ public class SearchPrint {
         System.out.println("#########################################################");
     }
 
-    public void departureScheduleFromOneStation(List<Train> trains, String departure, String departureShortCode) {
+    public void departureScheduleFromOneStation(List<Train> trains, String departure, String departureShortCode) { //printing trains departing from given station
         System.out.println();
         System.out.println("Below you can find trains that are leaving next from " + departure);
         System.out.println("");
@@ -76,11 +76,13 @@ public class SearchPrint {
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + getDestinationStationName(train) + "  \t \t \t " + train.getTrainCategory() + " ");
+            String arrivalShortCode = bgrdata.getShortCode(getDestinationStationName(train));
+            double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
+            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + getDestinationStationName(train) + "  \t \t \t " + train.getTrainCategory() + "\t" + distance + " km");
         }
     }
 
-    public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {
+    public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {//printing trains between two stations
         String departureStation = bgrdata.getStationName(departureShortCode);
         String arrivalStation = bgrdata.getStationName(arrivalShortCode);
         double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
