@@ -2,6 +2,7 @@ package vr;
 
 import vr.data.train.BackgroundData;
 import vr.data.train.JsonReadData;
+import vr.data.weather.WeatherStationsJsonData;
 import vr.ui.UserInterface;
 
 import java.util.Scanner;
