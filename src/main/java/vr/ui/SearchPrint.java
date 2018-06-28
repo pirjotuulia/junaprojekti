@@ -26,7 +26,7 @@ public class SearchPrint {
     }
 
     public void header() {
-        System.out.println ("");
+        System.out.println("");
         System.out.println("=============================================");
         System.out.println("     Explore Finland by train?");
         System.out.println("=============================================\n");
@@ -37,7 +37,7 @@ public class SearchPrint {
     }
 
     public void select() {
-        System.out.println ("");
+        System.out.println("");
         System.out.println(" Please choose from the options below:  ");
         System.out.println(" 1) Train search: NO spesific destination");
         System.out.println(" 2) Train search: TO a spesific destination");
@@ -49,7 +49,7 @@ public class SearchPrint {
         System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
         System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
         System.out.println(" 4) I keep on trekking, thank you very much!\n");
-        System.out.print("Your choice: \n");
+        System.out.print("Your choice: ");
 
     }
 
@@ -119,13 +119,17 @@ public class SearchPrint {
         return scheduledTime;
     }
 
-    private String getDestinationStationName(Train train) {
-        List<TimeTableRow> timeTable = train.getTimeTableRows();
-        String shortCode = timeTable.get(timeTable.size() - 1).getStationShortCode();
-        return bgrdata.getStationName(shortCode);
+    private String getDestinationStationName(Train train) { //this assumes that the destination is the last row of the timetable.
+        if (train.getCommuterLineID().equals("P") || train.getCommuterLineID().equals("I")) {
+            return "LENTOASEMA";
+        } else {
+            List<TimeTableRow> timeTable = train.getTimeTableRows();
+            String shortCode = timeTable.get(timeTable.size() - 1).getStationShortCode();
+            return bgrdata.getStationName(shortCode);
+        }
     }
 
-    private double getCoordinate(String stationShortCode, String wantedParameter) {
+    private double getCoordinate(String stationShortCode, String wantedParameter) { //get station coordinates for calculating the distance
         if (wantedParameter.equals("latitude")) {
             return bgrdata.getStation(stationShortCode).getLatitude();
         } else if (wantedParameter.equals("longitude")) {
