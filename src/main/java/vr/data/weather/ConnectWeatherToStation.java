@@ -1,4 +1,4 @@
-package vr.data;
+package vr.data.weather;
 
 public class ConnectWeatherToStation {
 
