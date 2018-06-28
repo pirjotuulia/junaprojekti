@@ -33,7 +33,6 @@ public class JsonReadData {
     private ArrayList<Train> listOfTrains(String stations) {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         ArrayList<Train> trains = new ArrayList<>();
-        ArrayList<Train> trainsFiltered = new ArrayList<>();
 
         try {
             URL url = new URL(URI.create(String.format("%s/live-trains/station/" + stations, baseurl)).toASCIIString());
@@ -41,27 +40,20 @@ public class JsonReadData {
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Train.class);
             trains = mapper.readValue(url, tarkempiListanTyyppi);
 
-//
-//            Iterator<Train> trainsIterator = trains.iterator();
-//            while (trainsIterator.hasNext()) {
-//                if (!(trainsIterator.next().equals("Long-distance") || trainsIterator.next().equals("Commuter"))) {
-//                    trains.remove(trainsIterator);
-//                }
-//            }
+            Iterator<Train> trainsIterator = trains.iterator();
+            while (trainsIterator.hasNext()) {
+                Train train = trainsIterator.next();
+                if (!(train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter"))) {
+                    trainsIterator.remove();
+                }
+            }
 
 
         } catch (Exception ex) {
             System.out.println(ex);
         }
 
-        // Very bad programming but works
-        for (Train train : trains) {
-            if (train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter")) {
-                trainsFiltered.add(train);
-            }
-        }
-
-        return trainsFiltered;
+        return trains;
     }
 
 

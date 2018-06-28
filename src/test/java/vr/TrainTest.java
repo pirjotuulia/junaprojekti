@@ -41,6 +41,9 @@ public class TrainTest {
     public void testTheGreatDistance(){
         dc = new DistanceCalculator();
 
+        //
+        System.out.println();
+        System.out.println(dc.calculateDistance(60.16952, 24.93545, 60.45148, 22.26869));
         System.out.println(dc.calculateDistance(60.16952, 24.93545, 60.45148, 22.26869));
     }
 }
