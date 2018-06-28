@@ -1,4 +1,4 @@
-package vr.data;
+package vr.data.train;
 
 import java.time.*;
 import java.util.Date;

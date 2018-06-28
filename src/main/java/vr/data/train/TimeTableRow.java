@@ -1,4 +1,4 @@
-package vr.data;
+package vr.data.train;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

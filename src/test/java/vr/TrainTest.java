@@ -1,8 +1,12 @@
 package vr;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.junit.Test;
+import vr.data.weather.*;
+import vr.data.train.*;
 import vr.data.*;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

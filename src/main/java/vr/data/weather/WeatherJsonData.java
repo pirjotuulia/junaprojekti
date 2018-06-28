@@ -1,4 +1,4 @@
-package vr.data;
+package vr.data.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
