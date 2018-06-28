@@ -5,8 +5,6 @@ import vr.data.JsonReadData;
 import vr.data.TimeTableRow;
 import vr.data.Train;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,6 +43,9 @@ public class Search {
         while (true) {
             while (true) {
                 String departure = getStation("departure"); // tänne tallennetaan aseman nimi
+                if (departure == null) {
+                    break;
+                }
                 String stationShortCode = bgrdata.getShortCode(departure); // etsitään mapista
                 print.resultHeader(bgrdata.getStationName(stationShortCode));
                 if (stationShortCode != null) {
@@ -128,12 +129,13 @@ public class Search {
     }
 
     private void helpCustomerFindStation(String station) {
-        List<String> nearestMatches = bgrdata.getNearestMatches(station);
-        System.out.println ("");
-        System.out.println ("Our data likes accuracy, could you specify the name. ");
-        System.out.println("Did you mean for example: ");
-        nearestMatches.stream().forEach(System.out::println);
-        System.out.println("Please write the full name of the station:");
+        if (!station.isEmpty()) {
+            List<String> nearestMatches = bgrdata.getNearestMatches(station);
+            System.out.println ("Our data likes accuracy, could you please specify the name of the station.");
+            System.out.println("Did you mean for example ");
+            nearestMatches.stream().forEach(System.out::println);
+        }
+        System.out.println("Please write the full name of the station.");
     }
 
     private boolean offerGivingUp() {
