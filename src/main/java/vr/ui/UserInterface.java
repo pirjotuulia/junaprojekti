@@ -36,7 +36,7 @@ public class UserInterface {
         while (true) {
             System.out.println("");
             System.out.println("=============================================");
-            System.out.println(" \n1) Timetable search - passenger trains");
+            System.out.println(" 1) Timetable search - passenger trains");
             System.out.println(" 2) Call Santa.");
             System.out.println(" 3) Find nearest Sauna.");
             System.out.println(" 4) Exit\n");
@@ -48,14 +48,10 @@ public class UserInterface {
                 search.timetableSearch();
             } else if (answer.equals("2")) {
                 System.out.println ("");
-                System.out.println("============================================================================");
                 System.out.println("Call Santa at Santa Claus Village amusement park, Rovaniemi: +358 16 3562096");
-                System.out.println("============================================================================");
             } else if (answer.equals("3")) {
                 System.out.println ("");
-                System.out.println("============================================================================");
                 System.out.println("Nearest sauna: Löyly at Hernesaarenranta 4, 00150 Helsinki");
-                System.out.println("============================================================================");
             } else if (answer.equals("4")) {
                 break;
             }

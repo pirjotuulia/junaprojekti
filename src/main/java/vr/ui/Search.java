@@ -104,9 +104,10 @@ public class Search {
         }
     }
 
-    private String getStation(String wanted) { //  Tältä voidaan kysyä sekä lähtö että saapumisasemaa
+    private String getStation(String wanted) { //  Tältä voidaan kysyä sekä lähtö että saapumisasemaa // metodi joka
         String station = "";
-        System.out.print("Write the name of the " + wanted + " station: ");
+        System.out.println ("");
+        System.out.println("Write the name of the " + wanted + " station: ");
         int givingUp = 0;
         while (true) {
             station = reader.nextLine().toUpperCase();
@@ -128,9 +129,11 @@ public class Search {
 
     private void helpCustomerFindStation(String station) {
         List<String> nearestMatches = bgrdata.getNearestMatches(station);
-        System.out.println("Did you mean for example ");
+        System.out.println ("");
+        System.out.println ("Our data likes accuracy, could you specify the name. ");
+        System.out.println("Did you mean for example: ");
         nearestMatches.stream().forEach(System.out::println);
-        System.out.println("Please write the full name of the station.");
+        System.out.println("Please write the full name of the station:");
     }
 
     private boolean offerGivingUp() {
