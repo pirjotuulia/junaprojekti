@@ -18,7 +18,7 @@ public class SearchPrint {
     private DistanceCalculator dc;
 
     public SearchPrint(BackgroundData bgrdata) {
-        this.loc = new Locale("fi", "FI");
+//        this.loc = new Locale("fi", "FI"); //not in use
         this.datef = DateTimeFormatter.ofPattern("dd.MM.");
         this.timef = DateTimeFormatter.ofPattern("kk.mm");
         this.bgrdata = bgrdata;
@@ -53,7 +53,7 @@ public class SearchPrint {
 
     }
 
-    public void resultHeader(String departure) {
+    public void resultHeader(String departure) {//art by Kaarina
         System.out.println("");
         System.out.println("");
         System.out.println("Looking for trains leaving from " + departure + " station:");
