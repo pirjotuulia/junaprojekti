@@ -65,13 +65,13 @@ public class SearchPrint {
         System.out.println("Below you can find trains that are leaving next from " + departure);
         System.out.println("");
         System.out.println("                          TIMETABLE                                     ");
-        System.out.println("---------------------------------------------------------------------------");
-        System.out.println("Date & time \t     Destination  \t \t \t    Type of Train  ");
-        System.out.println("---------------------------------------------------------------------------");
+        System.out.println("=========================================================================");
+        System.out.println("Date & time \t     Destination  \t \t    Type of Train  ");
+        System.out.println("=========================================================================");
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + getDestinationStationName(train) + "  \t \t \t " + train.getTrainCategory() + " ");
+            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + getDestinationStationName(train) + "  \t \t  " + train.getTrainCategory() + " ");
         }
     }
 

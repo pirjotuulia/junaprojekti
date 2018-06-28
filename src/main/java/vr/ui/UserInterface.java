@@ -31,28 +31,45 @@ public class UserInterface {
         System.out.println ("  \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/    \\_/\\_/ \\___| |_|    |_| |_|\\__,_| .__/| .__/|_|_| |_|\\___||___/___/");
         System.out.println ("                                                                                       |_|   |_|                          ");
         System.out.println("=============================================");
-        System.out.println("            WE'R HAPPINESS AT YOUR SERVICE!  ");
+        System.out.println("      WE'R HAPPINESS AT YOUR SERVICE!  ");
         System.out.println("=============================================");
         while (true) {
             System.out.println("");
-            System.out.println(" 1) Timetable search - passenger trains");
+            System.out.println("=============================================");
+            System.out.println(" \n1) Timetable search - passenger trains");
             System.out.println(" 2) Call Santa.");
             System.out.println(" 3) Find nearest Sauna.");
             System.out.println(" 4) Exit\n");
+            System.out.println("=============================================");
             System.out.print("Your choice: ");
             String answer = reader.nextLine();
             if (answer.equals("1")) {
                 Search search = new Search(reader, bgrdata, trainData);
                 search.timetableSearch();
             } else if (answer.equals("2")) {
+                System.out.println ("");
+                System.out.println("============================================================================");
                 System.out.println("Call Santa at Santa Claus Village amusement park, Rovaniemi: +358 16 3562096");
+                System.out.println("============================================================================");
             } else if (answer.equals("3")) {
+                System.out.println ("");
+                System.out.println("============================================================================");
                 System.out.println("Nearest sauna: Löyly at Hernesaarenranta 4, 00150 Helsinki");
+                System.out.println("============================================================================");
             } else if (answer.equals("4")) {
                 break;
             }
         }
+        System.out.println ("");
+        System.out.println (" _____ _                 _                        _ ");
+        System.out.println ("|_   _| |__   __ _ _ __ | | __  _   _  ___  _   _| |");
+        System.out.println ("  | | | '_ \\ / _` | '_ \\| |/ / | | | |/ _ \\| | | | |");
+        System.out.println ("  | | | | | | (_| | | | |   <  | |_| | (_) | |_| |_|");
+        System.out.println ("  |_| |_| |_|\\__,_|_| |_|_|\\_\\  \\__, |\\___/ \\__,_(_)");
+        System.out.println ("                                    |___/               ");
         System.out.println("Thank you for using our happiness search!");
+        System.out.println("Hope we satisfied your needs.");
+        System.out.println("In any case your feedback would be appreciated - please start feedback form with code x.");
 
     }
 }
