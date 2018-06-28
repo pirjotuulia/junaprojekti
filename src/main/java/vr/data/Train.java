@@ -7,7 +7,6 @@ import java.util.List;
 public class Train {
     boolean cancelled;
     String commuterLineID;
-    //LocalDate departureDate;  // Jackson ei oikein pidä Java 8 päivistä oletuksena
     Date departureDate;
     String operatorShortCode;
     int operatorUICCode;
