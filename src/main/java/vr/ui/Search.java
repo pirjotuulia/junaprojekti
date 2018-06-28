@@ -8,6 +8,7 @@ import vr.data.Train;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Search {
     private Scanner reader;
@@ -25,14 +26,18 @@ public class Search {
 
     public void timetableSearch() { // dialogi mihin mennään, mitä halutaan hakea
         print.header();
-        print.select();
-        String answer = reader.nextLine();
-        if (answer.equals("1")) {
-            nextDepartures();
-        } else if (answer.equals("2")) {
-            timeTablesFromTo();
-        } else if (answer.equals("3")) {
-            trainLateOrInTime();
+        while (true) {
+            print.select();
+            String answer = reader.nextLine();
+            if (answer.equals("1")) {
+                nextDepartures();
+            } else if (answer.equals("2")) {
+                timeTablesFromTo();
+            } else if (answer.equals("3")) {
+                trainLateOrInTime();
+            } else if (answer.equals("4")) {
+                break;
+            }
         }
     }
 
@@ -89,7 +94,8 @@ public class Search {
             } else {
                 System.out.println("Unfortunately we couldn't find the train stations for you.");
             }
-            System.out.println("======================================");;
+            System.out.println("======================================");
+            ;
             System.out.print("Happy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
@@ -141,11 +147,20 @@ public class Search {
         while (it.hasNext()) {
             Train train = it.next();
             List<TimeTableRow> timeTable = train.getTimeTableRows();
-            int found = (int) timeTable.stream().filter(r->r.getStationShortCode().equals(departureShortCode)).filter(r-> r.getType().equals("DEPARTURE")).count();
-            if (found<1) {
+            int found = (int) timeTable.stream().filter(r -> r.getStationShortCode().equals(departureShortCode)).filter(r -> r.getType().equals("DEPARTURE")).count();
+            if (found < 1) {
                 it.remove();
             }
         }
+        departure = orderLeavingTrains(departure, departureShortCode);
+        return departure;
+    }
+
+    private List<Train> orderLeavingTrains(List<Train> departure, String departureShortCode) {
+        departure = departure.stream()
+                .sorted((t1, t2) -> print.getScheduledTime(t1.getTimeTableRows(), "DEPARTURE", departureShortCode)
+                        .compareTo(print.getScheduledTime(t2.getTimeTableRows(), "DEPARTURE", departureShortCode)))
+                .collect(Collectors.toList());
         return departure;
     }
 
