@@ -45,6 +45,9 @@ public class Search {
         while (true) {
             while (true) {
                 String departure = getStation("departure"); // tänne tallennetaan aseman nimi
+                if (departure==null) {
+                    break;
+                }
                 String stationShortCode = bgrdata.getShortCode(departure); // etsitään mapista
                 print.resultHeader(bgrdata.getStationName(stationShortCode));
                 if (stationShortCode != null) {
