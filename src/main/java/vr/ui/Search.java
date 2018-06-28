@@ -14,7 +14,6 @@ public class Search {
     private Scanner reader;
     private BackgroundData bgrdata;
     private JsonReadData trainData;
-
     private SearchPrint print;
 
     public Search(Scanner reader, BackgroundData bgrdata, JsonReadData trainData) {
@@ -123,6 +122,7 @@ public class Search {
                 continue;
             }
         }
+
         return station;
     }
 
