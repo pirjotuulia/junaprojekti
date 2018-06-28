@@ -21,7 +21,7 @@ public class Search {
         this.print = new SearchPrint(bgrdata);
     }
 
-    public void timetableSearch() { // dialogi mihin mennään, mitä halutaan hakea
+    public void timetableSearch() { // opening dialogue for TimeTableSearch
         print.header();
         while (true) {
             print.select();
@@ -38,18 +38,18 @@ public class Search {
         }
     }
 
-    private void nextDepartures() { // mihin mennään
+    private void nextDepartures() { // Looking for trains leaving from a given station
         while (true) {
             while (true) {
-                String departure = getStation("departure"); // tänne tallennetaan aseman nimi
+                String departure = getStation("departure"); // get station name from user
                 if (departure == null) {
                     break;
                 }
-                String stationShortCode = bgrdata.getShortCode(departure); // etsitään mapista
-                print.resultHeader(bgrdata.getStationName(stationShortCode));
+                String stationShortCode = bgrdata.getShortCode(departure); // get shortCode from station name-shortcode -map
+                print.resultHeader(bgrdata.getStationName(stationShortCode)); //print out nice pic while searching
                 if (stationShortCode != null) {
-                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);// saadaan lista junista
-                    suitableTrains = leavingTrains(suitableTrains, stationShortCode);
+                    List<Train> suitableTrains = trainData.getTimeTable(stationShortCode);// get train data from api
+                    suitableTrains = leavingTrains(suitableTrains, stationShortCode); //filter out trains which are arriving
                     if (!suitableTrains.isEmpty()) {
                         print.departureScheduleFromOneStation(suitableTrains, departure.toUpperCase(), stationShortCode);//ui presumes that all trains on the list are passenger trains.
                         break;
@@ -65,37 +65,36 @@ public class Search {
             String answer = reader.nextLine();
             if (answer.equals("n")) {
                 return;
-            }
+            } //else repeat the while loop;
         }
     }
 
 
-    private void timeTablesFromTo() {
+    private void timeTablesFromTo() { // timeTables from one station to another
         outer:
         while (true) {
-            String departure = getStation("departure");
+            String departure = getStation("departure"); //get departure station name
             if (departure == null) {
                 break outer;
             }
-            String arrival = getStation("arrival");
+            String arrival = getStation("arrival"); //get arrival station name
             if (arrival == null) {
                 break outer;
             }
-            String departureShortCode = bgrdata.getShortCode(departure);
-            print.resultHeader(bgrdata.getStationName(departureShortCode));
-            String arrivalShortCode = bgrdata.getShortCode(arrival);
-            if (departureShortCode != null && arrivalShortCode != null) {
-                List<Train> suitableTrains = trainData.getTimeTable(departureShortCode, arrivalShortCode);
+            String departureShortCode = bgrdata.getShortCode(departure); // get shortcode from map
+            print.resultHeader(bgrdata.getStationName(departureShortCode)); //pring out nice pic
+            String arrivalShortCode = bgrdata.getShortCode(arrival); //get the other shortcode from map
+            if (departureShortCode != null && arrivalShortCode != null) { //to this loop only if info was valid and gave shortcodes for both stations
+                List<Train> suitableTrains = trainData.getTimeTable(departureShortCode, arrivalShortCode); //get list of trains
                 if (!suitableTrains.isEmpty()) {
-                    print.departureAndArrivalWithDateAndTime(suitableTrains, departureShortCode, arrivalShortCode);
+                    print.departureAndArrivalWithDateAndTime(suitableTrains, departureShortCode, arrivalShortCode); //print out timetables
                 } else {
                     System.out.println("There are no connections from " + departure + " station to " + arrival + " station in the near future.");
                 }
             } else {
                 System.out.println("Unfortunately we couldn't find the train stations for you.");
             }
-            System.out.println("======================================");
-            ;
+            System.out.println("======================================\n");
             System.out.print("Happy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
@@ -104,18 +103,18 @@ public class Search {
         }
     }
 
-    private String getStation(String wanted) { //  Tältä voidaan kysyä sekä lähtö että saapumisasemaa
+    private String getStation(String wanted) { // get station name from user
         String station = "";
         System.out.print("Write the name of the " + wanted + " station: ");
-        int givingUp = 0;
+        int givingUp = 0; //count for unsuccessfull tries
         while (true) {
-            station = reader.nextLine().toUpperCase();
-            if (bgrdata.isKey(station)) {
+            station = reader.nextLine().toUpperCase(); //get input
+            if (bgrdata.isKey(station)) { //if input string is found in map
                 break;
             } else {
-                helpCustomerFindStation(station);
-                givingUp++;
-                if (givingUp > 3) {
+                helpCustomerFindStation(station); //try to get a valid input string from user
+                givingUp++; //count unsuccessfull attempts
+                if (givingUp > 3) { //if user is not succeeding and is getting frustrated
                     if (offerGivingUp()) {
                         return null;
                     }
@@ -127,16 +126,16 @@ public class Search {
         return station;
     }
 
-    private void helpCustomerFindStation(String station) {
+    private void helpCustomerFindStation(String station) { //dialogue and offer of most likely stations
         if (!station.isEmpty()) {
-            List<String> nearestMatches = bgrdata.getNearestMatches(station);
-            System.out.println("Did you mean for example ");
+            List<String> nearestMatches = bgrdata.getNearestMatches(station); //get stationnames which start with what the user wrote
+            System.out.println("Did you mean for example ");//offer list of found names as a hint
             nearestMatches.stream().forEach(System.out::println);
         }
         System.out.println("Please write the full name of the station.");
     }
 
-    private boolean offerGivingUp() {
+    private boolean offerGivingUp() { //this is offered as a way out
         System.out.println("Sometimes it's better to stay still than constantly be on the move. Do you want to give up? (y/n)");
         String answer = reader.nextLine();
         if (answer.equals("y")) {
@@ -145,13 +144,13 @@ public class Search {
         return false;
     }
 
-    private List<Train> leavingTrains(List<Train> departure, String departureShortCode) {
+    private List<Train> leavingTrains(List<Train> departure, String departureShortCode) { //filter out arriving trains from one stations full train list and return departing trains
         Iterator<Train> it = departure.iterator();
         while (it.hasNext()) {
             Train train = it.next();
             List<TimeTableRow> timeTable = train.getTimeTableRows();
             int found = (int) timeTable.stream().filter(r -> r.getStationShortCode().equals(departureShortCode)).filter(r -> r.getType().equals("DEPARTURE")).count();
-            if (found < 1) {
+            if (found < 1) { //if none of the timetablerows of a train contain the given shortcode and are for a departing train, the train is removed from list
                 it.remove();
             }
         }
@@ -159,7 +158,7 @@ public class Search {
         return departure;
     }
 
-    private List<Train> orderLeavingTrains(List<Train> departure, String departureShortCode) {
+    private List<Train> orderLeavingTrains(List<Train> departure, String departureShortCode) { //for sorting trains by the time they leave from a given station.
         departure = departure.stream()
                 .sorted((t1, t2) -> print.getScheduledTime(t1.getTimeTableRows(), "DEPARTURE", departureShortCode)
                         .compareTo(print.getScheduledTime(t2.getTimeTableRows(), "DEPARTURE", departureShortCode)))
@@ -167,7 +166,7 @@ public class Search {
         return departure;
     }
 
-    private void trainLateOrInTime() {
-        System.out.println("Sorry, we have no idea if your train's on time or not. Neither as VR..");
+    private void trainLateOrInTime() { //not done yet
+        System.out.println("Sorry, we have no idea if your train's on time or not. Neither has VR..");
     }
 }
