@@ -17,6 +17,7 @@ import vr.data.weather.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -68,6 +69,19 @@ public class TrainTest {
         System.out.println(temp);
 
     }
+
+    @Test
+    public void testWeatherDescription() {
+        weatherJsonData = new WeatherJsonData();
+        WeatherClass weatherClass = weatherJsonData.getWeatherData("Helsinki");
+        List<Weather> wlist = weatherClass.getWeather();
+        String description = "";
+        for (Weather w : wlist){
+            description = w.getDescription();
+        }
+        System.out.println(description);
+    }
+
 
     @Test
     public void testJsonClass(){

@@ -138,11 +138,6 @@ class Coord {
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class Weather {
-    //OLIO
-}
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 class Wind {
     private int speed;
     private int deg;
