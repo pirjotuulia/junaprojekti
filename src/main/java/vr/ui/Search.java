@@ -167,6 +167,6 @@ public class Search {
     }
 
     private void trainLateOrInTime() { //not done yet
-        System.out.println("Sorry, we have no idea if your train's on time or not. Neither as VR..");
+        System.out.println("Sorry, we have no idea if your train's on time or not. Neither has VR..");
     }
 }
