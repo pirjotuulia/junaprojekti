@@ -38,17 +38,15 @@ public class SearchPrint {
 
     public void select() {
         System.out.println("");
-        System.out.println(" Please choose from the options below:  ");
-        System.out.println(" 1) Train search: NO spesific destination");
-        System.out.println(" 2) Train search: TO a spesific destination");
+        System.out.println(" Please choose from the options below:  \n");
+
+        System.out.println(" 1) Search trains: from location");
+        System.out.println("              Trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!\n");
+        System.out.println(" 2) Search trains: direct connections ");
+        System.out.println("             Trains going to a specific destination from where you are now. For the destination oriented!\n");
         System.out.println(" 3) Is my train on time?");
-        System.out.println(" 4) Exit\n");
-        System.out.println("---------------------------------------------\n");
-        System.out.println("Explanations of the search");
-        System.out.println(" 1) Search for trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!");
-        System.out.println(" 2) Search for trains going to a specific destination from where you are now. For the destination oriented!");
-        System.out.println(" 3) Is my train on time? Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?");
-        System.out.println(" 4) I keep on trekking, thank you very much!\n");
+        System.out.println("             Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?\n");
+        System.out.println(" 4) Exit");
         System.out.print("Your choice: ");
 
     }
