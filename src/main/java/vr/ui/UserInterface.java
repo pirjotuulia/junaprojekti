@@ -2,11 +2,6 @@ package vr.ui;
 
 import vr.data.BackgroundData;
 import vr.data.JsonReadData;
-import vr.data.Train;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -53,6 +48,5 @@ public class UserInterface {
             }
         }
         System.out.println("Thank you for using our happiness search!");
-
     }
 }
