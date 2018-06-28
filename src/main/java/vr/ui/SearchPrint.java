@@ -102,7 +102,7 @@ public class SearchPrint {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t " + timef.format(arrivalTime) + " \t " + train.getTrainCategory() + " ");
+            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + timef.format(arrivalTime) + " \t \t \t " + train.getTrainCategory() + " ");
         }
     }
 
