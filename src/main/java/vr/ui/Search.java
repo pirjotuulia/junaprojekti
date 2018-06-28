@@ -5,8 +5,6 @@ import vr.data.JsonReadData;
 import vr.data.TimeTableRow;
 import vr.data.Train;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
