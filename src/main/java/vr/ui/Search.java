@@ -1,9 +1,9 @@
 package vr.ui;
 
-import vr.data.BackgroundData;
-import vr.data.JsonReadData;
-import vr.data.TimeTableRow;
-import vr.data.Train;
+import vr.data.train.BackgroundData;
+import vr.data.train.JsonReadData;
+import vr.data.train.TimeTableRow;
+import vr.data.train.Train;
 
 import java.util.*;
 import java.util.stream.Collectors;

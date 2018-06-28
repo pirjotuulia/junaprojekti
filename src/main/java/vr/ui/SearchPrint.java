@@ -1,9 +1,9 @@
 package vr.ui;
 
-import vr.data.BackgroundData;
+import vr.data.train.BackgroundData;
 import vr.data.DistanceCalculator;
-import vr.data.TimeTableRow;
-import vr.data.Train;
+import vr.data.train.TimeTableRow;
+import vr.data.train.Train;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -103,7 +103,10 @@ public class SearchPrint {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + timef.format(arrivalTime) + " \t \t \t " + train.getTrainCategory() + " ");
+            System.out.print(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + timef.format(arrivalTime) + " \t \t \t " + train.getTrainCategory() + " ");
+            if (train.getTimeTableRows().get(0).getDifferenceInMinutes()>0) {
+                System.out.println(" Train is late " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes.");
+            }
         }
     }
 

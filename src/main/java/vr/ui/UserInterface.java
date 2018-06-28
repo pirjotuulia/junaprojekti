@@ -1,7 +1,7 @@
 package vr.ui;
 
-import vr.data.BackgroundData;
-import vr.data.JsonReadData;
+import vr.data.train.BackgroundData;
+import vr.data.train.JsonReadData;
 import java.util.Scanner;
 
 /**

@@ -1,12 +1,9 @@
 package vr.data.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class WeatherJsonData {
 
