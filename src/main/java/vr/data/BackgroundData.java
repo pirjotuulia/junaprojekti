@@ -12,6 +12,7 @@ import java.util.*;
 public class BackgroundData {
 
     private Map<String, String> stationShortCodes; //esitellään Hashmap
+    private List<Stations> stations;
 
     public BackgroundData() { //parametriton konstruktoi
 
@@ -22,7 +23,7 @@ public class BackgroundData {
             URL url=new URL (URI.create (String.format ("%s/metadata/stations", baseurl)).toASCIIString()); // haettiin nämä URL datat, jotta saadaan
             ObjectMapper mapper=new ObjectMapper();
             CollectionType tarkempiListanTyyppi=mapper.getTypeFactory ().constructCollectionType (ArrayList.class, Stations.class);
-            List<Stations> stations=mapper.readValue (url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
+            this.stations=mapper.readValue (url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
             for (Stations st : stations) {
                 this.stationShortCodes.put(st.getStationName().toUpperCase(), st.getStationShortCode());
@@ -64,6 +65,15 @@ public class BackgroundData {
             }
         }
         return nearest; // palauttaa listan lähimmistä asemista
+    }
+
+    public Stations getStation (String shortcode) {
+        for (Stations st : this.stations) {
+            if (st.getStationShortCode().equals(shortcode)) {
+                return st;
+            }
+        }
+        return null;
     }
 }
 

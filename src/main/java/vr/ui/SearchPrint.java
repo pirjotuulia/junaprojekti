@@ -1,6 +1,7 @@
 package vr.ui;
 
 import vr.data.BackgroundData;
+import vr.data.DistanceCalculator;
 import vr.data.TimeTableRow;
 import vr.data.Train;
 
@@ -14,12 +15,14 @@ public class SearchPrint {
     private DateTimeFormatter datef;
     private DateTimeFormatter timef;
     private BackgroundData bgrdata;
+    private DistanceCalculator dc;
 
     public SearchPrint(BackgroundData bgrdata) {
         this.loc = new Locale("fi", "FI");
         this.datef = DateTimeFormatter.ofPattern("dd.MM.");
         this.timef = DateTimeFormatter.ofPattern("kk.mm");
         this.bgrdata = bgrdata;
+        this.dc = new DistanceCalculator();
     }
 
     public void header() {
@@ -78,11 +81,19 @@ public class SearchPrint {
     }
 
     public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {
-        System.out.println("Timetable from: " + bgrdata.getStationName(departureShortCode) + " to " + bgrdata.getStationName(arrivalShortCode));
+        String departureStation = bgrdata.getStationName(departureShortCode);
+        String arrivalStation = bgrdata.getStationName(arrivalShortCode);
+        double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
+        System.out.println("Timetable from: " + departureStation + " to " + arrivalStation);
+        System.out.println("Distance between " + departureStation + " and " + arrivalStation + " is "
+                + distance
+                + " km");
         System.out.println("                          TIMETABLE                                     ");
-        System.out.println("=========================================================================");;
+        System.out.println("=========================================================================");
+        ;
         System.out.println("Leaving time \t     Arrival time \t     Type of Train  ");
-        System.out.println("=========================================================================");;
+        System.out.println("=========================================================================");
+        ;
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
@@ -105,6 +116,15 @@ public class SearchPrint {
         List<TimeTableRow> timeTable = train.getTimeTableRows();
         String shortCode = timeTable.get(timeTable.size() - 1).getStationShortCode();
         return bgrdata.getStationName(shortCode);
+    }
+
+    private double getCoordinate(String stationShortCode, String wantedParameter) {
+        if (wantedParameter.equals("latitude")) {
+            return bgrdata.getStation(stationShortCode).getLatitude();
+        } else if (wantedParameter.equals("longitude")) {
+            return bgrdata.getStation(stationShortCode).getLongitude();
+        }
+        return 0;
     }
 
 

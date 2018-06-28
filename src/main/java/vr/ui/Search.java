@@ -45,7 +45,7 @@ public class Search {
         while (true) {
             while (true) {
                 String departure = getStation("departure"); // tänne tallennetaan aseman nimi
-                if (departure==null) {
+                if (departure == null) {
                     break;
                 }
                 String stationShortCode = bgrdata.getShortCode(departure); // etsitään mapista
@@ -130,9 +130,11 @@ public class Search {
     }
 
     private void helpCustomerFindStation(String station) {
-        List<String> nearestMatches = bgrdata.getNearestMatches(station);
-        System.out.println("Did you mean for example ");
-        nearestMatches.stream().forEach(System.out::println);
+        if (!station.isEmpty()) {
+            List<String> nearestMatches = bgrdata.getNearestMatches(station);
+            System.out.println("Did you mean for example ");
+            nearestMatches.stream().forEach(System.out::println);
+        }
         System.out.println("Please write the full name of the station.");
     }
 
