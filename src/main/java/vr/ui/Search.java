@@ -89,7 +89,7 @@ public class Search {
             } else {
                 System.out.println("Unfortunately we couldn't find the train stations for you.");
             }
-            System.out.println("----------------------------------------------");
+            System.out.println("======================================");;
             System.out.print("Happy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
