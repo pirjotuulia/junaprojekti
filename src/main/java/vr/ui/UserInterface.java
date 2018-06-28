@@ -22,14 +22,14 @@ public class UserInterface {
         System.out.println ("              _                            _                       ");
         System.out.println ("__      _____| | ___ ___  _ __ ___   ___  | |_ ___         ");
         System.out.println ("\\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\  ");
-        System.out.println (" \\ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) |  \\  ");
+        System.out.println (" \\ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) |   ");
         System.out.println ("  \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/    ");
 
-        System.out.println ("               _   ");
-        System.out.println ("__      _____( )_ __ ");
-        System.out.println ("\\ \\ /\\ / / _ \\/| '__|");
-        System.out.println (" \\ V  V /  __/ | |   ");
-        System.out.println ("  \\_/\\_/ \\___| |_| ");
+        System.out.println ("                            _   ");
+        System.out.println ("               __      _____( )_ __ ");
+        System.out.println ("               \\ \\ /\\ / / _ \\/| '__|");
+        System.out.println ("                \\ V  V /  __/ | |   ");
+        System.out.println ("                \\_/\\_/ \\___| |_| ");
         System.out.println (" _                       _    ");
         System.out.println ("| |__   __ _ _ __  _ __ (_)_ __   ___  ___ ___ ");
         System.out.println ("| '_ \\ / _` | '_ \\| '_ \\| | '_ \\ / _ \\/ __/ __|");
@@ -48,6 +48,13 @@ public class UserInterface {
             System.out.println(" 3) Find nearest Sauna.");
             System.out.println(" 4) Exit\n");
             System.out.println("=============================================");
+            System.out.println ("");
+            System.out.println ("");
+            System.out.println ("");
+            System.out.println ("");
+            System.out.println ("");
+            System.out.println ("");
+            System.out.println ("");
             System.out.print("Your choice: ");
             String answer = reader.nextLine();
             if (answer.equals("1")) {
@@ -69,10 +76,10 @@ public class UserInterface {
         System.out.println ("  | | | '_ \\ / _` | '_ \\| |/ / | | | |/ _ \\| | | | |");
         System.out.println ("  | | | | | | (_| | | | |   <  | |_| | (_) | |_| |_|");
         System.out.println ("  |_| |_| |_|\\__,_|_| |_|_|\\_\\  \\__, |\\___/ \\__,_(_)");
-        System.out.println ("                                    |___/               ");
+        System.out.println ("                                |___/               ");
         System.out.println("Thank you for using our happiness search!");
         System.out.println("Hope we satisfied your needs.");
-        System.out.println("In any case your feedback would be appreciated - please start feedback form with code x.");
+
 
     }
 }

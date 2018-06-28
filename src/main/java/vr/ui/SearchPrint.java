@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.lang.String;
 
 public class SearchPrint {
     private Locale loc;
@@ -46,11 +47,14 @@ public class SearchPrint {
         System.out.println(" Please choose from the options below:  \n");
 
         System.out.println(" 1) Search trains: from location");
-        System.out.println("              Trains leaving from where you are now or any other station. If you just want to get away, no matter where you go!\n");
+        System.out.println("              Trains leaving from where you are now or any other station.");
+        System.out.println("              If you just want to get away, no matter where you go!\n");
         System.out.println(" 2) Search trains: direct connections ");
-        System.out.println("             Trains going to a specific destination from where you are now. For the destination oriented!\n");
+        System.out.println("             Trains going to a specific destination from where you are now.");
+        System.out.println("             For the destination oriented!\n");
         System.out.println(" 3) Is my train on time?");
-        System.out.println("             Could be, but maybe you still have time to go for a cup of coffee and ice cream before it leaves?\n");
+        System.out.println("             Could be...");
+        System.out.println("             but maybe you still have time to go for a cup of coffee and ice cream before it leaves?\n");
         System.out.println(" 4) Exit");
         System.out.print("Your choice: ");
 
@@ -82,18 +86,18 @@ public class SearchPrint {
         System.out.println("Below you can find trains that are leaving next from " + departure);
         weather(weather, nearestWeatherCity);
         System.out.println("");
-        System.out.println("                          TIMETABLE                                     ");
-        System.out.println("=========================================================================");
-        System.out.println("Date & leaving time \t     Destination  \t \t    Type of Train  ");
-        System.out.println("=========================================================================");
+        System.out.println("                                     TIMETABLE                                     ");
+        System.out.println("=========================================================================================");
+        System.out.println("Departure time \t \t    Destination  \t\t  Type of Train  \t  Distance to destination ");
+        System.out.println("=========================================================================================");
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             String arrivalShortCode = bgrdata.getShortCode(getDestinationStationName(train));
             double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
-            System.out.print(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + getDestinationStationName(train) + "  \t \t  " + train.getTrainCategory() + "\t" + distance + " km\t");
+            System.out.println(String.format("%4s %4s %20s %20s %20s", datef.format(departureTime),timef.format(departureTime), getDestinationStationName(train), train.getTrainCategory(), distance + " km\t"));
             if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
-                System.out.print(" Train is " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes late.");
+                System.out.println(" Train is " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes late.");
             }
             System.out.println("");
         }
@@ -112,22 +116,24 @@ public class SearchPrint {
         String nearestWeatherCity = cw.findNearest(longitude, latitude);
         WeatherClass weather = weatherData(nearestWeatherCity);
         double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
+        System.out.println ("");
         System.out.println("Timetable from: " + departureStation + " to " + arrivalStation);
         System.out.println("Distance between " + departureStation + " and " + arrivalStation + " is "
                 + distance
                 + " km");
         weather(weather, nearestWeatherCity);
-        System.out.println("                          TIMETABLE                                     ");
-        System.out.println("=========================================================================");
+        System.out.println ("\n \n");
+        System.out.println("                     TIMETABLE                              ");
+        System.out.println("============================================================");
         ;
-        System.out.println("Leaving time \t     Arrival time \t     Type of Train  ");
-        System.out.println("=========================================================================");
+        System.out.println("Departure time \t    Arrival time \t   Type of Train  ");
+        System.out.println("============================================================");
         ;
         for (Train train : trains) {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
-            System.out.print(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + timef.format(arrivalTime) + " \t \t \t " + train.getTrainCategory() + " ");
+            System.out.print(String.format("%4s %4s %15s %20s",datef.format(departureTime), timef.format(departureTime), timef.format(arrivalTime), train.getTrainCategory() + " "));
             if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
                 System.out.print(" Train is late " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes.");
             }
