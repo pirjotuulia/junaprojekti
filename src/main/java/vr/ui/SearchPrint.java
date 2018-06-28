@@ -80,7 +80,7 @@ public class SearchPrint {
 
         System.out.println();
         System.out.println("Below you can find trains that are leaving next from " + departure);
-        weather(weather);
+        weather(weather, nearestWeatherCity);
         System.out.println("");
         System.out.println("                          TIMETABLE                                     ");
         System.out.println("=========================================================================");
@@ -91,28 +91,32 @@ public class SearchPrint {
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             String arrivalShortCode = bgrdata.getShortCode(getDestinationStationName(train));
             double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
-            System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + getDestinationStationName(train) + "  \t \t  " + train.getTrainCategory() + "\t" + distance + " km");
-
+            System.out.print(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + getDestinationStationName(train) + "  \t \t  " + train.getTrainCategory() + "\t" + distance + " km\t");
+            if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
+                System.out.print(" Train is " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes late.");
+            }
+            System.out.println("");
         }
     }
 
-    private void weather(WeatherClass weather) {
+    private void weather(WeatherClass weather, String station) {
         System.out.println("");
-        System.out.print("The temperature there is " + weather.getMain().getTemp() + " and it looks like there will be ");
-        if (weather.getMain().getHumidity()<70) {
-            System.out.print("no ");
-        }
-        System.out.println("rain today.");
+        System.out.println("The temperature in " + station + " is " + weather.getMain().getTemp() + " and it looks like there will be " + weather.getWeather().get(0).getDescription() + ".");
     }
 
     public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {//printing trains between two stations
         String departureStation = bgrdata.getStationName(departureShortCode);
         String arrivalStation = bgrdata.getStationName(arrivalShortCode);
+        double longitude = getCoordinate(arrivalShortCode, "longitude");
+        double latitude = getCoordinate(arrivalShortCode, "latitude");
+        String nearestWeatherCity = cw.findNearest(longitude, latitude);
+        WeatherClass weather = weatherData(nearestWeatherCity);
         double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
         System.out.println("Timetable from: " + departureStation + " to " + arrivalStation);
         System.out.println("Distance between " + departureStation + " and " + arrivalStation + " is "
                 + distance
                 + " km");
+        weather(weather, nearestWeatherCity);
         System.out.println("                          TIMETABLE                                     ");
         System.out.println("=========================================================================");
         ;
@@ -125,8 +129,9 @@ public class SearchPrint {
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
             System.out.print(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + timef.format(arrivalTime) + " \t \t \t " + train.getTrainCategory() + " ");
             if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
-                System.out.println(" Train is late " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes.");
+                System.out.print(" Train is late " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes.");
             }
+            System.out.println("");
         }
     }
 
