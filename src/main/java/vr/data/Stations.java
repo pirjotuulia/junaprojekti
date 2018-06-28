@@ -8,8 +8,8 @@ public class Stations {
     private String stationShortCode;
     private int stationUICCode;
     private String countryCode;
-    private int longitude;
-    private int latitude;
+    private double longitude;
+    private double latitude;
 
     public boolean isPassengerTraffic() {
         return passengerTraffic;
@@ -59,7 +59,7 @@ public class Stations {
         this.countryCode=countryCode;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -67,7 +67,7 @@ public class Stations {
         this.longitude=longitude;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 

@@ -1,6 +1,8 @@
 package vr;
 
 import org.junit.Test;
+import vr.data.DistanceCalculator;
+import vr.data.Stations;
 import vr.data.TimeTableRow;
 import vr.data.Train;
 
@@ -13,6 +15,8 @@ import static org.junit.Assert.assertEquals;
 public class TrainTest {
     private Train train;
     private TimeTableRow timeTableRow;
+    private DistanceCalculator dc;
+    private Stations station;
 
 
     @Test
@@ -32,4 +36,11 @@ public class TrainTest {
         System.out.println(ldt);
         assertEquals(ldt, timeTableRow.getLocalDateTime());
         }
+
+    @Test
+    public void testTheGreatDistance(){
+        dc = new DistanceCalculator();
+
+        System.out.println(dc.calculateDistance(60.16952, 24.93545, 60.45148, 22.26869));
+    }
 }
