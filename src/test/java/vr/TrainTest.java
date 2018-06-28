@@ -10,6 +10,7 @@ import vr.data.train.TimeTableRow;
 import vr.data.train.Train;
 import vr.data.weather.WeatherClass;
 import vr.data.weather.WeatherJsonData;
+import vr.data.weather.*;
 
 
 import java.time.LocalDate;
@@ -58,8 +59,11 @@ public class TrainTest {
     @Test
     public void testInstanceofWeatherData() {
         weatherJsonData = new WeatherJsonData();
-        System.out.println(weatherJsonData.getWeatherData("Helsinki"));
-        System.out.println();
+        //System.out.println(weatherJsonData.getWeatherData("Helsinki"));
+        WeatherClass weatherClass = weatherJsonData.getWeatherData("Helsinki");
+        Main main = weatherClass.getMain();
+        int temp = main.getTemp();
+        System.out.println(temp);
 
     }
 
