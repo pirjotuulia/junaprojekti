@@ -13,7 +13,7 @@ import java.util.List;
 public class WeatherStationsJsonData {
     private List<WeatherStation> weatherStationsFI;
 
-    public List<WeatherStation> readWeatherStationJson() {
+    public List<WeatherStation> readWeatherStationJson() {//luetaan dataa: tässä luettiin ensin koko maailmaa koskeva file, muutettiin se
         try {
             File file = new File("weatherInFI.json");
             ObjectMapper mapper = new ObjectMapper();

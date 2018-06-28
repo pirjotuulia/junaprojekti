@@ -4,6 +4,7 @@ import vr.data.train.BackgroundData;
 import vr.data.DistanceCalculator;
 import vr.data.train.TimeTableRow;
 import vr.data.train.Train;
+import vr.data.weather.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +17,8 @@ public class SearchPrint {
     private DateTimeFormatter timef;
     private BackgroundData bgrdata;
     private DistanceCalculator dc;
+    private ConnectWeatherToStation cw;
+    private WeatherJsonData weatherJsonData;
 
     public SearchPrint(BackgroundData bgrdata) {
 //        this.loc = new Locale("fi", "FI"); //not in use
@@ -23,6 +26,8 @@ public class SearchPrint {
         this.timef = DateTimeFormatter.ofPattern("kk.mm");
         this.bgrdata = bgrdata;
         this.dc = new DistanceCalculator();
+        this.cw = new ConnectWeatherToStation();
+        this.weatherJsonData = new WeatherJsonData();
     }
 
     public void header() {
@@ -68,8 +73,14 @@ public class SearchPrint {
     }
 
     public void departureScheduleFromOneStation(List<Train> trains, String departure, String departureShortCode) { //printing trains departing from given station
+        double longitude = getCoordinate(departureShortCode, "longitude");
+        double latitude = getCoordinate(departureShortCode, "latitude");
+        String nearestWeatherCity = cw.findNearest(longitude, latitude);
+        WeatherClass weather = weatherData(nearestWeatherCity);
+
         System.out.println();
         System.out.println("Below you can find trains that are leaving next from " + departure);
+        weather(weather);
         System.out.println("");
         System.out.println("                          TIMETABLE                                     ");
         System.out.println("=========================================================================");
@@ -83,6 +94,15 @@ public class SearchPrint {
             System.out.println(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + getDestinationStationName(train) + "  \t \t  " + train.getTrainCategory() + "\t" + distance + " km");
 
         }
+    }
+
+    private void weather(WeatherClass weather) {
+        System.out.println("");
+        System.out.print("The temperature there is " + weather.getMain().getTemp() + " and it looks like there will be ");
+        if (weather.getMain().getHumidity()<70) {
+            System.out.print("no ");
+        }
+        System.out.println("rain today.");
     }
 
     public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {//printing trains between two stations
@@ -104,7 +124,7 @@ public class SearchPrint {
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
             System.out.print(datef.format(departureTime) + " " + timef.format(departureTime) + " \t \t \t " + timef.format(arrivalTime) + " \t \t \t " + train.getTrainCategory() + " ");
-            if (train.getTimeTableRows().get(0).getDifferenceInMinutes()>0) {
+            if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
                 System.out.println(" Train is late " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes.");
             }
         }
@@ -139,5 +159,8 @@ public class SearchPrint {
         return 0;
     }
 
-
+    private WeatherClass weatherData(String name) {
+        WeatherClass weatherClass = weatherJsonData.getWeatherData(name);
+        return weatherClass;
+    }
 }
