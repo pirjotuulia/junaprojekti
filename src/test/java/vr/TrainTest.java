@@ -7,6 +7,7 @@ import vr.data.*;
 import vr.data.train.JsonReadData;
 import vr.data.train.Stations;
 import vr.data.train.TimeTableRow;
+import vr.data.weather.ConnectWeatherToStation;
 import vr.data.train.Train;
 import vr.data.weather.WeatherClass;
 import vr.data.weather.WeatherJsonData;
@@ -16,6 +17,7 @@ import vr.data.weather.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,6 +29,7 @@ public class TrainTest {
     private WeatherJsonData weatherJsonData;
     private WeatherClass weather;
     private JsonReadData jsonReadData;
+    private ConnectWeatherToStation connectWeatherToStation;
 
 
     @Test
@@ -68,9 +71,29 @@ public class TrainTest {
     }
 
     @Test
+    public void testWeatherDescription() {
+        weatherJsonData = new WeatherJsonData();
+        WeatherClass weatherClass = weatherJsonData.getWeatherData("Helsinki");
+        List<Weather> wlist = weatherClass.getWeather();
+        String description = "";
+        for (Weather w : wlist){
+            description = w.getDescription();
+        }
+        System.out.println(description);
+    }
+
+
+    @Test
     public void testJsonClass(){
         jsonReadData = new JsonReadData();
         System.out.println(jsonReadData.getTimeTable("HKI"));
+    }
+
+    @Test
+    public void testIfConnectStationsWeatherLoc(){
+        ConnectWeatherToStation connect = new ConnectWeatherToStation();
+        String name = connect.findNearest(24.9, 60.1);
+        System.out.println(name);
     }
 
 }
