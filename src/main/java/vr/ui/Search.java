@@ -61,6 +61,7 @@ public class Search {
                     System.out.print("The station you gave was not found on our system. Finnish spelling can be quite hard, please try again! ");
                 }
             }
+            System.out.println("============================================================\n");
             System.out.print("\nHappy? Want to search for more departures? (y/n) ");
             String answer = reader.nextLine();
             if (answer.equals("n")) {
@@ -107,7 +108,7 @@ public class Search {
         String station = "";
         int givingUp = 0; //count for unsuccessfull tries
         while (true) {
-            System.out.print("Write the name of the " + wanted + " station: ");
+            System.out.print("\nWrite the name of the " + wanted + " station: ");
             station = reader.nextLine().toUpperCase(); //get input
             if (bgrdata.isKey(station)) { //if input string is found in map
                 break;

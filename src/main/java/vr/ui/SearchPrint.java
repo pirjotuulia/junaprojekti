@@ -32,7 +32,7 @@ public class SearchPrint {
     }
 
     public void header() {
-        System.out.println("");
+        emptyLines(10);
         System.out.println("=============================================");
         System.out.println("     Explore Finland by train?");
         System.out.println("=============================================\n");
@@ -42,10 +42,9 @@ public class SearchPrint {
 
     }
 
-    public void select() {
-        System.out.println("");
-        System.out.println(" Please choose from the options below:  \n");
 
+    public void select() {
+        System.out.println("\n Please choose from the options below:  \n");
         System.out.println(" 1) Search trains: from location");
         System.out.println("              Trains leaving from where you are now or any other station.");
         System.out.println("              If you just want to get away, no matter where you go!\n");
@@ -55,14 +54,13 @@ public class SearchPrint {
         System.out.println(" 3) Is my train on time?");
         System.out.println("             Could be...");
         System.out.println("             but maybe you still have time to go for a cup of coffee and ice cream before it leaves?\n");
-        System.out.println(" 4) Exit");
+        System.out.println(" 4) Exit\n");
         System.out.print("Your choice: ");
 
     }
 
     public void resultHeader(String departure) {//art by Kaarina
-        System.out.println("");
-        System.out.println("");
+        emptyLines(2);
         System.out.println("Looking for trains leaving from " + departure + " station:");
         System.out.println("");
         System.out.println("#########################################################");
@@ -80,11 +78,13 @@ public class SearchPrint {
         double longitude = getCoordinate(departureShortCode, "longitude");
         double latitude = getCoordinate(departureShortCode, "latitude");
         String nearestWeatherCity = cw.findNearest(longitude, latitude);
-        WeatherClass weather = weatherData(nearestWeatherCity);
 
         System.out.println();
         System.out.println("Below you can find trains that are leaving next from " + departure);
-        weather(weather, nearestWeatherCity);
+        if (nearestWeatherCity != null) {//weather is given only if it's available from a nearby weather station
+            WeatherClass weather = weatherData(nearestWeatherCity);
+            weather(weather, nearestWeatherCity);
+        }
         System.out.println("");
         System.out.println("                                     TIMETABLE                                     ");
         System.out.println("=========================================================================================");
@@ -95,7 +95,7 @@ public class SearchPrint {
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             String arrivalShortCode = bgrdata.getShortCode(getDestinationStationName(train));
             double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
-            System.out.println(String.format("%4s %4s %20s %20s %20s", datef.format(departureTime),timef.format(departureTime), getDestinationStationName(train), train.getTrainCategory(), distance + " km\t"));
+            System.out.println(String.format("%4s %4s %20s %20s %20s", datef.format(departureTime), timef.format(departureTime), getDestinationStationName(train), train.getTrainCategory(), distance + " km\t"));
             if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
                 System.out.println(" Train is " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes late.");
             }
@@ -103,9 +103,8 @@ public class SearchPrint {
         }
     }
 
-    private void weather(WeatherClass weather, String station) {
-        System.out.println("");
-        System.out.println("The temperature in " + station + " is " + weather.getMain().getTemp() + " and it looks like there will be " + weather.getWeather().get(0).getDescription() + ".");
+    private void weather(WeatherClass weather, String station) {//print out the weather for a station
+        System.out.println("\nThe temperature in " + station + " is " + weather.getMain().getTemp() + " and it looks like there will be " + weather.getWeather().get(0).getDescription() + ".");
     }
 
     public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {//printing trains between two stations
@@ -113,16 +112,18 @@ public class SearchPrint {
         String arrivalStation = bgrdata.getStationName(arrivalShortCode);
         double longitude = getCoordinate(arrivalShortCode, "longitude");
         double latitude = getCoordinate(arrivalShortCode, "latitude");
-        String nearestWeatherCity = cw.findNearest(longitude, latitude);
-        WeatherClass weather = weatherData(nearestWeatherCity);
+        String nearestWeatherCity = cw.findNearest(longitude, latitude);//find out if there's a weather station near the railway station
         double distance = Math.round(dc.calculateDistance(getCoordinate(departureShortCode, "latitude"), getCoordinate(departureShortCode, "longitude"), getCoordinate(arrivalShortCode, "latitude"), getCoordinate(arrivalShortCode, "longitude")));
-        System.out.println ("");
+        System.out.println("");
         System.out.println("Timetable from: " + departureStation + " to " + arrivalStation);
         System.out.println("Distance between " + departureStation + " and " + arrivalStation + " is "
                 + distance
                 + " km");
-        weather(weather, nearestWeatherCity);
-        System.out.println ("\n \n");
+        if (nearestWeatherCity != null) {
+            WeatherClass weather = weatherData(nearestWeatherCity);
+            weather(weather, nearestWeatherCity);
+        }
+        System.out.println("\n \n");
         System.out.println("                     TIMETABLE                              ");
         System.out.println("============================================================");
         ;
@@ -133,7 +134,7 @@ public class SearchPrint {
             List<TimeTableRow> timetable = train.getTimeTableRows();
             LocalDateTime departureTime = getScheduledTime(timetable, "DEPARTURE", departureShortCode);
             LocalDateTime arrivalTime = getScheduledTime(timetable, "ARRIVAL", arrivalShortCode);
-            System.out.print(String.format("%4s %4s %15s %20s",datef.format(departureTime), timef.format(departureTime), timef.format(arrivalTime), train.getTrainCategory() + " "));
+            System.out.print(String.format("%4s %4s %15s %20s", datef.format(departureTime), timef.format(departureTime), timef.format(arrivalTime), train.getTrainCategory() + " "));
             if (train.getTimeTableRows().get(0).getDifferenceInMinutes() > 0) {
                 System.out.print(" Train is late " + train.getTimeTableRows().get(0).getDifferenceInMinutes() + " minutes.");
             }
@@ -141,7 +142,7 @@ public class SearchPrint {
         }
     }
 
-    public LocalDateTime getScheduledTime(List<TimeTableRow> schedule, String depOrArr, String stationShortCode) {
+    public LocalDateTime getScheduledTime(List<TimeTableRow> schedule, String depOrArr, String stationShortCode) {//get time for a departure or arrival to a given station
         LocalDateTime scheduledTime = null;
         for (TimeTableRow ttr : schedule) {
             if (ttr.getStationShortCode().equals(stationShortCode) && ttr.getType().equals(depOrArr)) {
@@ -170,8 +171,14 @@ public class SearchPrint {
         return 0;
     }
 
-    private WeatherClass weatherData(String name) {
+    private WeatherClass weatherData(String name) {//get weather from the weather api
         WeatherClass weatherClass = weatherJsonData.getWeatherData(name);
         return weatherClass;
+    }
+
+    private void emptyLines(int numberOfLines) {//print wanted amount of empty lines
+        for (int i=0; i < numberOfLines; i++) {
+            System.out.println("");
+        }
     }
 }

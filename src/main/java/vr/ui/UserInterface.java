@@ -5,7 +5,7 @@ import vr.data.train.JsonReadData;
 import java.util.Scanner;
 
 /**
- * by Pirjo
+ * by Pirjo, ASCII art by Kaarina
  */
 public class UserInterface {
     private Scanner reader;
@@ -18,7 +18,7 @@ public class UserInterface {
         this.trainData = trainData;
     }
 
-    public void start() {
+    public void start() {//welcome screen
         System.out.println ("              _                            _                       ");
         System.out.println ("__      _____| | ___ ___  _ __ ___   ___  | |_ ___         ");
         System.out.println ("\\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\  ");
@@ -46,15 +46,9 @@ public class UserInterface {
             System.out.println(" 1) Timetable search - passenger trains");
             System.out.println(" 2) Call Santa.");
             System.out.println(" 3) Find nearest Sauna.");
-            System.out.println(" 4) Exit\n");
+            System.out.println(" 4) Exit");
             System.out.println("=============================================");
-            System.out.println ("");
-            System.out.println ("");
-            System.out.println ("");
-            System.out.println ("");
-            System.out.println ("");
-            System.out.println ("");
-            System.out.println ("");
+            System.out.println("");
             System.out.print("Your choice: ");
             String answer = reader.nextLine();
             if (answer.equals("1")) {
@@ -80,6 +74,13 @@ public class UserInterface {
         System.out.println("Thank you for using our happiness search!");
         System.out.println("Hope we satisfied your needs.");
 
+        credits();
+    }
 
+    private void credits() {//who and what
+        System.out.println("\nTeam: Johannes, Kaarina, Pirjo");
+        System.out.println("Data:");
+        System.out.println("\tTrains&stations: https://rata.digitraffic.fi/");
+        System.out.println("\tWeather: https://openweathermap.org/");
     }
 }
