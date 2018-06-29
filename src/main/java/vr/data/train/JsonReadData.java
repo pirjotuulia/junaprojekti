@@ -43,7 +43,7 @@ public class JsonReadData {
             Iterator<Train> trainsIterator = trains.iterator();
             while (trainsIterator.hasNext()) {
                 Train train = trainsIterator.next();
-                if (!(train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter"))) {
+                if (!(train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter"))||!train.getTimetableType().equals("REGULAR")) {
                     trainsIterator.remove();
                 }
             }

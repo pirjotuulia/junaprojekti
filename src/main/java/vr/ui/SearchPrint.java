@@ -79,7 +79,6 @@ public class SearchPrint {
         double latitude = getCoordinate(departureShortCode, "latitude");
         String nearestWeatherCity = cw.findNearest(longitude, latitude);
 
-        System.out.println();
         System.out.println("Below you can find trains that are leaving next from " + departure);
         if (nearestWeatherCity != null) {//weather is given only if it's available from a nearby weather station
             WeatherClass weather = weatherData(nearestWeatherCity);
@@ -110,6 +109,7 @@ public class SearchPrint {
     public void departureAndArrivalWithDateAndTime(List<Train> trains, String departureShortCode, String arrivalShortCode) {//printing trains between two stations
         String departureStation = bgrdata.getStationName(departureShortCode);
         String arrivalStation = bgrdata.getStationName(arrivalShortCode);
+
         double longitude = getCoordinate(arrivalShortCode, "longitude");
         double latitude = getCoordinate(arrivalShortCode, "latitude");
         String nearestWeatherCity = cw.findNearest(longitude, latitude);//find out if there's a weather station near the railway station
@@ -123,7 +123,7 @@ public class SearchPrint {
             WeatherClass weather = weatherData(nearestWeatherCity);
             weather(weather, nearestWeatherCity);
         }
-        System.out.println("\n \n");
+        System.out.println("");
         System.out.println("                     TIMETABLE                              ");
         System.out.println("============================================================");
         ;
