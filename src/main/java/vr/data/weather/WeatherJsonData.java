@@ -17,16 +17,7 @@ public class WeatherJsonData {
         try {
             URL url = new URL(URI.create(String.format("%s/weather?q=" + city + locale + apikey, baseurl)).toASCIIString());
             ObjectMapper mapper = new ObjectMapper();
-            //CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, WeatherClass.class);
             weather = mapper.readValue(url, WeatherClass.class);
-
-//            Iterator<Train> trainsIterator = weather.iterator();
-//            while (trainsIterator.hasNext()) {
-//                Train train = trainsIterator.next();
-//                if (!(train.trainCategory.equals("Long-distance") || train.trainCategory.equals("Commuter"))) {
-//                    trainsIterator.remove();
-//                }
-//            }
 
 
         } catch (Exception ex) {
